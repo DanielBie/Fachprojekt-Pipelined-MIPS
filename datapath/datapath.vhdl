@@ -208,6 +208,7 @@ begin
   pcadd2: adder port map(PCPlus4E, SignImmEsh, PCBranchE);
   
   -- mux to chose between branch address or pc+4
+  PCSrcM <= BranchM and ZeroM;
   pcbrmux: mux2 generic map(32) port map(PCPlus4F, PCBranchM, PCSrcM, pc);
   
   -- chose signimmsh+pc+4 or jump address as next pc value
