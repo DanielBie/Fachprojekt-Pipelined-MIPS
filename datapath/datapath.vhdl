@@ -8,14 +8,14 @@ entity datapath is
   port(
     clk: in std_logic;
     reset: in std_logic;
-    memtoregD: std_logic;
-    alusrcD: in std_logic;
-    regdstD: in std_logic;
-    regwriteD: in std_logic;
+    MemToRegD: std_logic;
+    ALUSrcD: in std_logic;
+    RegDstD: in std_logic;
+    RegWriteD: in std_logic;
     --jump: in std_logic;
-	memwriteD: in std_logic;
-	branchD: in std_logic;
-    alucontrolD: in std_logic_vector(2 downto 0);
+	MemWriteD: in std_logic;
+	BranchD: in std_logic;
+    ALUControlD: in std_logic_vector(2 downto 0);
   );
 end;
 
@@ -168,89 +168,141 @@ architecture structure of datapath is
 	  );
   end component;
 
-signal writereg: std_logic_vector(4 downto 0);
-signal pc, pcf, pcnextbr, pcplus4, pcbranch: std_logic_vector(31 downto 0);
-signal signimm, SignImmEsh: std_logic_vector(31 downto 0);
-signal srca, srcb, result: std_logic_vector(31 downto 0);
 
-signal SrcBE std_logic_vector(31 downto 0);
-signal ResultW std_logic_vector(31 downto 0);
-signal PCSrcM std_logic;
-signal PCPlus4F std_logic_vector(31 downto 0);
+
+--F
+signal pc, pcf, PCPlus4F, instrF: std_logic_vector(31 downto 0);
 --D
-signal instr, instrD, PCPlus4, PCPlus4D: std_logic_vector(31 downto 0);
+-- signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD: std_logic;
+signal RtD, RdD: std_logic_vector(4 downto 0);
+signal RD1, RD2, SignExtendD, PCPlus4D, instrD: std_logic_vector(31 downto 0);
 --E
-signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD, RegWriteE, MemWriteE, MemToRegE, BranchE, ALUControlE, ALUSrcE, RegDstE: std_logic;
-signal RtD, RdD, RtE, RdE: std_logic_vector(4 downto 0);
-signal RD1, RD2, SignExtendD, PCPlus4D, SrcAE, WriteDataE, SignImmE, PCPlus4E: std_logic_vector(31 downto 0);
+signal ZeroE, RegWriteE, MemWriteE, MemToRegE, BranchE, ALUControlE, ALUSrcE, RegDstE: std_logic;
+signal WriteRegE, RtE, RdE: std_logic_vector(4 downto 0);
+signal SrcAE, SrcBE, WriteDataE, SignImmE, PCPlus4E, SignImmEsh, ALUOutE, WriteBranchE, PCBranchE: std_logic_vector(31 downto 0);
 --M
-signal ZeroE, RegWriteE, MemToRegE, MemWriteE, BranchE, ZeroM, RegWriteM, MemToRegM, MemWriteM, BranchM: std_logic;
-signal WriteRegE, WriteRegM: std_logic_vector(4 downto 0);
-signal ALUOutE, WriteDataE, WriteBranchE, PCBranchE, ALUOutM, WriteDataM, WriteBranchM, PCBranchM : std_logic_vector(31 downto 0);
+signal PCSrcM, ZeroM, RegWriteM, MemToRegM, MemWriteM, BranchM: std_logic;
+signal WriteRegM: std_logic_vector(4 downto 0);
+signal ALUOutM, WriteDataM, WriteBranchM, PCBranchM, ReaddataM: std_logic_vector(31 downto 0);
 --W
-signal RegWriteM, RegWriteW, MemToRegM, MemToRegW: std_logic;
-signal AluoutM, AluoutW, ReaddataM, ReaddataW: std_logic_vector(31 downto 0);
-signal WriteRegM, WriteRegW: std_logic_vector(4 downto 0);
-
-
--- clk: in std_logic;
--- reset: in std_logic;
--- memtoreg: std_logic;
--- pcsrc: std_logic;
--- alusrc: in std_logic;
--- regdst: in std_logic;
--- regwrite: in std_logic;
--- jump: in std_logic;
--- alucontrol: in std_logic_vector(2 downto 0);
--- readdata: in std_logic_vector(31 downto 0);
--- instr: in std_logic_vector(31 downto 0);
--- zero: out std_logic;
--- pc: buffer std_logic_vector(31 downto 0);
--- aluout: buffer std_logic_vector(31 downto 0);
--- writedata: buffer std_logic_vector(31 downto 0)
+signal RegWriteW, MemToRegW: std_logic;
+signal WriteRegW: std_logic_vector(4 downto 0);
+signal AluoutW, ReaddataW, ResultW: std_logic_vector(31 downto 0);
 
 
 begin
   
   -- next pc logic
   -- pcjump <= pcplus4(31 downto 28) & instr(25 downto 0) & "00";
+  
   -- pc register
-  -- [1]
   pcreg: syncresff generic map(32) port map(clk => clk, reset => reset, d => pc, q => pcf);
+  
   -- adder for pc+4
-  -- [2]
   pcadd1: adder port map(pcf, x"00000004", PCPlus4F);
+  
   -- shift left2
-  -- [3]
   immsh: sl2 port map(SignImmE, SignImmEsh);
+  
   -- adder to add immediate to pc+4 as an option for branch
-  -- [4]
   pcadd2: adder port map(PCPlus4E, SignImmEsh, PCBranchE);
+  
   -- mux to chose between branch address or pc+4
-  -- [5]
   pcbrmux: mux2 generic map(32) port map(PCPlus4F, PCBranchM, PCSrcM, pc);
+  
   -- chose signimmsh+pc+4 or jump address as next pc value
-  -- [6]
-  -- pcmux: mux2 generic map(32) port map(pcnextbr, pcjump, jump,
-  -- pcnext);
+  -- pcmux: mux2 generic map(32) port map(pcnextbr, pcjump, jump, pcnext);
+  
   -- register file logic
-  -- [7]
   rf: regfile port map(clk => clk, we3 => RegWriteW, a1 => instrD(25 downto 21), a2 => instrD(20 downto 16), a3 => WriteRegW, wd3 => ResultW, rd1 => RD1, rd2 => RD2);
+  
   -- mux for deciding into which register (out of the two specified in the instruction) to write
-  -- [8]
   wrmux: mux2 generic map(5) port map(d0 => RtE, d1 => RdE, s => RegDstE, y => WriteRegE);
+  
   -- chose to store value from alu or memory to register
-  -- [9]
   resmux: mux2 generic map(32) port map(AluoutW, ReaddataW, MemToRegW, ResultW);
+  
   -- sign extender
-  -- [10]
   se: signext port map(instrD(15 downto 0), SignExtendD);
+  
   -- chose rd2 or sign extended value (add immediate to a register or add two values in registers)
-  -- [11]
   srcbmux: mux2 generic map(32) port map(WriteDataE, SignImmE, ALUSrcE, SrcBE);
+  
   -- alu
-  --[12]
   mainalu: alu port map(SrcAE, SrcBE, ALUControlE, ALUOutE, ZeroE);
+  
+  
+  --Register:
+  --Decode
+  decode: pipeline_register_D port map(clk => clk, instr => instrF, PCPlus4 => PCPlus4F, instrD => instrD, PCPlus4D => PCPlus4D);
+  
+  --Execute
+  execute: pipeline_register_E port map(
+						clk => clk,
+						RD1 => RD1,
+						RD2 => RD2,
+						RtD => RtD,
+						RdD => RdD,
+						SignExtendD => SignExtendD,
+						PCPlus4D => PCPlus4D,
+						RegWriteD => RegWriteD,
+						MemToRegD => MemToRegD,
+						MemWriteD => MemWriteD,
+						BranchD => BranchD,
+						ALUControlD => ALUControlD,
+						ALUSrcD => ALUSrcD,
+						RegDstD => RegDstD,
+						SrcAE => SrcAE,
+						WriteDataE => WriteDataE,
+						RtE => RtE,
+						RdE => RdE,
+						SignImmE => SignImmE,
+						PCPlus4E => PCPlus4E,
+						RegWriteE => RegWriteE,
+						MemWriteE => MemWriteE,
+						MemToRegE => MemToRegE,
+						BranchE => BranchE,
+						ALUControlE => ALUControlE,
+						ALUSrcE => ALUSrcE,
+						RegDstE => RegDstE );
+						
+  --Memory
+  memory: pipeline_register_M port map(
+						clk => clk,
+						ZeroE => ZeroE,
+						ALUOutE => ALUOutE,
+						WriteDataE => WriteDataE,
+						WriteRegE => WriteRegE,
+						PCBranchE => PCBranchE,
+						RegWriteE => RegWriteE,
+						MemToRegE => MemToRegE,
+						MemWriteE => MemWriteE,
+						BranchE => BranchE,
+						ZeroM => ZeroM,
+						ALUOutM => ALUOutM,
+						WriteDataM => WriteDataM,
+						WriteRegM => WriteRegM,
+						PCBranchM => PCBranchM,
+						RegWriteM => RegWriteM,
+						MemToRegM => MemToRegM,
+						MemWriteM => MemWriteM,
+						BranchM => BranchM );
+						
+  --Writeback
+  writeback: pipeline_register_W port map(
+										clk => clk, 
+										AluoutM => AluoutM, 
+										ReaddataM => ReaddataM, 
+										RegWriteM => RegWriteM, 
+										MemToRegM => MemToRegM,
+										WriteRegM => WriteRegM, 
+										AluoutW => AluoutW, 
+										ReaddataW => ReaddataW, 
+										RegWriteW => RegWriteW,
+										MemToRegW => MemToRegW, 
+										WriteRegW => WriteRegW);
+										
+										
 end;
 
 
