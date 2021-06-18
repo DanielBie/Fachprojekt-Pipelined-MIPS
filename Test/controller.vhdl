@@ -8,11 +8,11 @@ entity controller is
   port(
     op: in std_logic_vector(5 downto 0);
     funct: in std_logic_vector(5 downto 0);
-	  RegWriteD: out std_logic;
+	RegWriteD: out std_logic;
     MemToRegD: out std_logic;
     MemWriteD: out std_logic;
-    BranchD: out std_logic;
-    AluControlD: out std_logic_vector(2 downto 0);
+	BranchD: out std_logic;
+	AluControlD: out std_logic_vector(2 downto 0);
     AluSrcD: out std_logic;
     RegDstD: out std_logic
     -- JumpD: out std_logic;

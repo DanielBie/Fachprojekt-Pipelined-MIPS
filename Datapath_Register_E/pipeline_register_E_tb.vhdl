@@ -32,13 +32,14 @@ architecture test of pipeline_register_E_tb is
 		MemWriteE: out std_logic;
 		MemToRegE: out std_logic;
 		BranchE: out std_logic;
-		ALUControlE: out std_logic;
+		ALUControlE: out std_logic_vector(2 downto 0);
 		ALUSrcE: out std_logic;
 		RegDstE: out std_logic
 	);
   end component;
 
-  signal clk, RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD, RegWriteE, MemWriteE, MemToRegE, BranchE, ALUControlE, ALUSrcE, RegDstE: std_logic;
+  signal clk, RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD, RegWriteE, MemWriteE, MemToRegE, BranchE, ALUSrcE, RegDstE: std_logic;
+  signal ALUControlE: std_logic_vector(2 downto 0);
   signal RtD, RdD, RtE, RdE: std_logic_vector(4 downto 0);
   signal RD1, RD2, SignExtendD, PCPlus4D, SrcAE, WriteDataE, SignImmE, PCPlus4E: std_logic_vector(31 downto 0);
   
