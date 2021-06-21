@@ -193,6 +193,7 @@ architecture structure of datapath is
 signal pc, pcf, PCPlus4F, instrF: std_logic_vector(31 downto 0);
 --D
 -- signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD: std_logic;
+signal not_clk: std_logic;
 signal RtD, RdD: std_logic_vector(4 downto 0);
 signal RD1, RD2, SignExtendD, PCPlus4D, instrD: std_logic_vector(31 downto 0);
 --E
@@ -211,6 +212,14 @@ signal AluoutW, ReaddataW, ResultW: std_logic_vector(31 downto 0);
 
 
 begin
+  --instr zerstueckeln
+  OpD <= instrD(31 downto 26);
+  
+  FunctD <= instrD(5 downto 0);
+  
+  RtD <= instrD(20 downto 16);
+  
+  RdD <= instrD(15 downto 11);
   
   -- next pc logic
   -- pcjump <= pcplus4(31 downto 28) & instr(25 downto 0) & "00";
@@ -234,8 +243,11 @@ begin
   -- chose signimmsh+pc+4 or jump address as next pc value
   -- pcmux: mux2 generic map(32) port map(pcnextbr, pcjump, jump, pcnext);
   
+  -- invert clk
+  not_clk <= not clk;
+  
   -- register file logic
-  rf: regfile port map(clk => clk, we3 => RegWriteW, a1 => instrD(25 downto 21), a2 => instrD(20 downto 16), a3 => WriteRegW, wd3 => ResultW, rd1 => RD1, rd2 => RD2);
+  rf: regfile port map(clk => not_clk, we3 => RegWriteW, a1 => instrD(25 downto 21), a2 => instrD(20 downto 16), a3 => WriteRegW, wd3 => ResultW, rd1 => RD1, rd2 => RD2);
   
   -- mux for deciding into which register (out of the two specified in the instruction) to write
   wrmux: mux2 generic map(5) port map(d0 => RtE, d1 => RdE, s => RegDstE, y => WriteRegE);
@@ -258,6 +270,7 @@ begin
   --data memory
   dataMem: data_memory port map(clk, ALUOutM, WriteDataM, MemWriteM, ReadDataM);
   
+
   
   --Register:
   --Decode

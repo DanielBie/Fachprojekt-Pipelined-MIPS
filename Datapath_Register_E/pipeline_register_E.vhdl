@@ -69,8 +69,8 @@ begin
   MemToRegE <= mem_1(1);
   MemWriteE <= mem_1(2);
   BranchE <= mem_1(3);
-  ALUSrcE <= mem_1(5);
-  RegDstE <= mem_1(6);
+  ALUSrcE <= mem_1(4);
+  RegDstE <= mem_1(5);
 
   ALUControlE <= mem_3(0);
 
