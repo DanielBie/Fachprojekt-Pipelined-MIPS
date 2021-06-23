@@ -12,7 +12,7 @@ entity datapath is
     ALUSrcD: in std_logic;
     RegDstD: in std_logic;
     RegWriteD: in std_logic;
-    --jump: in std_logic;
+    jump: in std_logic;
 	MemWriteD: in std_logic;
 	BranchD: in std_logic;
     ALUControlD: in std_logic_vector(2 downto 0);
@@ -190,12 +190,12 @@ architecture structure of datapath is
 
 
 --F
-signal pc, pcf, PCPlus4F, instrF: std_logic_vector(31 downto 0);
+signal pc, pcf, PCPlus4F, instrF, PCBranchF: std_logic_vector(31 downto 0);
 --D
 -- signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD: std_logic;
 signal not_clk: std_logic;
 signal RtD, RdD: std_logic_vector(4 downto 0);
-signal RD1, RD2, SignExtendD, PCPlus4D, instrD: std_logic_vector(31 downto 0);
+signal RD1, RD2, SignExtendD, PCPlus4D, instrD, PCJumpD: std_logic_vector(31 downto 0);
 --E
 signal ZeroE, RegWriteE, MemWriteE, MemToRegE, BranchE, ALUSrcE, RegDstE: std_logic;
 signal ALUControlE: std_logic_vector(2 downto 0);
@@ -222,7 +222,7 @@ begin
   RdD <= instrD(15 downto 11);
   
   -- next pc logic
-  -- pcjump <= pcplus4(31 downto 28) & instr(25 downto 0) & "00";
+  PCJumpD <= PCPlus4D(31 downto 28) & InstrD(25 downto 0) & "00";
   
   -- pc register
   pcreg: syncresff port map(clk => clk, reset => reset, d => pc, q => pcf);
@@ -238,10 +238,10 @@ begin
   
   -- mux to chose between branch address or pc+4
   PCSrcM <= BranchM and ZeroM;
-  pcbrmux: mux2 generic map(32) port map(PCPlus4F, PCBranchM, PCSrcM, pc);
+  pcbrmux: mux2 generic map(32) port map(PCPlus4F, PCBranchM, PCSrcM, PCBranchF);
   
   -- chose signimmsh+pc+4 or jump address as next pc value
-  -- pcmux: mux2 generic map(32) port map(pcnextbr, pcjump, jump, pcnext);
+  pcmux: mux2 generic map(32) port map(PCBranchF, PCJumpD, jump, pc);
   
   -- invert clk
   not_clk <= not clk;

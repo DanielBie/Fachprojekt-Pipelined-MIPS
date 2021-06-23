@@ -1,0 +1,37 @@
+$date
+  Wed Jun 23 16:41:08 2021
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module maindecoder $end
+$var reg 6 ! op[5:0] $end
+$var reg 1 " memtoreg $end
+$var reg 1 # memwrite $end
+$var reg 1 $ branch $end
+$var reg 1 % alusrc $end
+$var reg 1 & regdst $end
+$var reg 1 ' regwrite $end
+$var reg 1 ( jump $end
+$var reg 2 ) aluop[1:0] $end
+$var reg 9 * controls[8:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+bUUUUUU !
+-"
+-#
+-$
+-%
+-&
+-'
+-(
+b-- )
+b--------- *

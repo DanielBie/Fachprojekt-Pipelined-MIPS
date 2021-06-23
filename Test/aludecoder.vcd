@@ -1,0 +1,23 @@
+$date
+  Wed Jun 23 16:37:02 2021
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module aludecoder $end
+$var reg 6 ! funct[5:0] $end
+$var reg 2 " aluop[1:0] $end
+$var reg 3 # alucontrole[2:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+bUUUUUU !
+bUU "
+b--- #

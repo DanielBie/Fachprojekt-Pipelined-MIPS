@@ -11,15 +11,11 @@ $scope module standard $end
 $upscope $end
 $scope module std_logic_1164 $end
 $upscope $end
-$scope module mux2 $end
-$var reg 8 ! d0[7:0] $end
-$var reg 8 " d1[7:0] $end
-$var reg 1 # s $end
-$var reg 8 $ y[7:0] $end
+$scope module sl2 $end
+$var reg 32 ! a[31:0] $end
+$var reg 32 " y[31:0] $end
 $upscope $end
 $enddefinitions $end
 #0
-bUUUUUUUU !
-bUUUUUUUU "
-U#
-bUUUUUUUU $
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU !
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 "

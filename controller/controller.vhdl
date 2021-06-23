@@ -14,8 +14,8 @@ entity controller is
     BranchD: out std_logic;
     AluControlD: out std_logic_vector(2 downto 0);
     AluSrcD: out std_logic;
-    RegDstD: out std_logic
-    -- JumpD: out std_logic;
+    RegDstD: out std_logic;
+    JumpD: out std_logic
   );
 end;
 
@@ -43,9 +43,8 @@ architecture structure of controller is
   end component;
   
   signal aluop: std_logic_vector(1 downto 0);
-  signal jump: std_logic;
   
 begin
-  md: maindecoder port map(op, MemToRegD, MemWriteD, BranchD, AluSrcD, RegDstD, RegWriteD, jump, aluop);
+  md: maindecoder port map(op, MemToRegD, MemWriteD, BranchD, AluSrcD, RegDstD, RegWriteD, JumpD, aluop);
   ad: aludecoder port map(funct, aluop, AluControlD);
 end;

@@ -22,8 +22,8 @@ architecture structure of mips_pipelined is
       BranchD: out std_logic;
       ALuControlD: out std_logic_vector(2 downto 0);
       AluSrcD: out std_logic;
-      RegDstD: out std_logic
-      -- JumpD: out std_logic;
+      RegDstD: out std_logic;
+      JumpD: out std_logic
     );
   end component;
 
@@ -35,7 +35,7 @@ architecture structure of mips_pipelined is
       ALUSrcD: in std_logic;
       RegDstD: in std_logic;
       RegWriteD: in std_logic;
-      --jump: in std_logic;
+      jump: in std_logic;
       MemWriteD: in std_logic;
       BranchD: in std_logic;
       ALUControlD: in std_logic_vector(2 downto 0);
@@ -44,7 +44,7 @@ architecture structure of mips_pipelined is
     );
   end component;
 
-  signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUSrcD, RegDstD: std_logic;
+  signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUSrcD, RegDstD, JumpD: std_logic;
   signal ALUControlD: std_logic_vector(2 downto 0);
   signal OpD, FunctD: std_logic_vector(5 downto 0);
 begin
@@ -57,8 +57,8 @@ begin
     BranchD,
     ALUControlD,
     ALUSrcD,
-    RegDstD
-    -- JumpD,
+    RegDstD,
+    JumpD
     );
   mips_datapath: datapath port map(
     clk,
@@ -67,7 +67,7 @@ begin
     ALUSrcD,
     RegDstD,
     RegWriteD,
-    -- jump,
+    JumpD,
     MemWriteD,
     BranchD,
     ALUControlD,

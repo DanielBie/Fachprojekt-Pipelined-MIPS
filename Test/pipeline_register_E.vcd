@@ -1,0 +1,76 @@
+$date
+  Wed Jun 23 16:39:32 2021
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module pipeline_register_e $end
+$var reg 1 ! clk $end
+$var reg 32 " rd1[31:0] $end
+$var reg 32 # rd2[31:0] $end
+$var reg 5 $ rtd[4:0] $end
+$var reg 5 % rdd[4:0] $end
+$var reg 32 & signextendd[31:0] $end
+$var reg 32 ' pcplus4d[31:0] $end
+$var reg 1 ( regwrited $end
+$var reg 1 ) memtoregd $end
+$var reg 1 * memwrited $end
+$var reg 1 + branchd $end
+$var reg 3 , alucontrold[2:0] $end
+$var reg 1 - alusrcd $end
+$var reg 1 . regdstd $end
+$var reg 32 / srcae[31:0] $end
+$var reg 32 0 writedatae[31:0] $end
+$var reg 5 1 rte[4:0] $end
+$var reg 5 2 rde[4:0] $end
+$var reg 32 3 signimme[31:0] $end
+$var reg 32 4 pcplus4e[31:0] $end
+$var reg 1 5 regwritee $end
+$var reg 1 6 memtorege $end
+$var reg 1 7 memwritee $end
+$var reg 1 8 branche $end
+$var reg 3 9 alucontrole[2:0] $end
+$var reg 1 : alusrce $end
+$var reg 1 ; regdste $end
+$comment mem_32 is not handled $end
+$comment mem_5 is not handled $end
+$comment mem_3 is not handled $end
+$var reg 7 < mem_1[6:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+U!
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU "
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU #
+bUUUUU $
+bUUUUU %
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU &
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU '
+U(
+U)
+U*
+U+
+bUUU ,
+U-
+U.
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU /
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 0
+bUUUUU 1
+bUUUUU 2
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 3
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 4
+U5
+U6
+U7
+U8
+bUUU 9
+U:
+U;
+bUUUUUUU <
