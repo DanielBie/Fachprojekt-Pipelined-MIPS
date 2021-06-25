@@ -6,6 +6,7 @@ entity pipeline_register_E is
     clk: in std_logic;
 	RD1: in std_logic_vector(31 downto 0);
 	RD2: in std_logic_vector(31 downto 0);
+	RsD: in std_logic_vector(4 downto 0);
 	RtD: in std_logic_vector(4 downto 0);
 	RdD: in std_logic_vector(4 downto 0);
 	SignExtendD: in std_logic_vector(31 downto 0);
@@ -19,6 +20,7 @@ entity pipeline_register_E is
 	RegDstD: in std_logic;
 	SrcAE: out std_logic_vector(31 downto 0);
 	WriteDataE: out std_logic_vector(31 downto 0);
+	RsE: out std_logic_vector(4 downto 0);
 	RtE: out std_logic_vector(4 downto 0);
 	RdE: out std_logic_vector(4 downto 0);
 	SignImmE: out std_logic_vector(31 downto 0);
@@ -35,7 +37,7 @@ end;
 
 architecture structure of pipeline_register_E is
  type ramtype_32 is array (3 downto 0) of std_logic_vector(31 downto 0);
- type ramtype_5 is array (1 downto 0) of std_logic_vector(4 downto 0);
+ type ramtype_5 is array (2 downto 0) of std_logic_vector(4 downto 0);
  type ramtype_3 is array (0 downto 0) of std_logic_vector(2 downto 0);
  type ramtype_1 is array (6 downto 0) of std_logic;
  signal mem_32: ramtype_32;
@@ -59,6 +61,7 @@ begin
 	   mem_32(1) <= RD2;
 	   mem_5(0) <= RtD;
 	   mem_5(1) <= RdD;
+	   mem_5(2) <= RsD;
 	   mem_32(2) <= SignExtendD;
 	   mem_32(3) <= PCPlus4D;
     end if;
@@ -79,6 +82,7 @@ begin
   WriteDataE <= mem_32(1);
   RtE <= mem_5(0);
   RdE <= mem_5(1);
+  RsE <= mem_5(2);
   SignImmE <= mem_32(2);
   PCPlus4E <= mem_32(3);
 	  

@@ -8,6 +8,8 @@ entity datapath is
   port(
     clk: in std_logic;
     reset: in std_logic;
+	ForwardAE: in std_logic_vector(1 downto 0);
+	ForwardBE: in std_logic_vector(1 downto 0);
     MemToRegD: std_logic;
     ALUSrcD: in std_logic;
     RegDstD: in std_logic;
@@ -17,7 +19,13 @@ entity datapath is
 	BranchD: in std_logic;
     ALUControlD: in std_logic_vector(2 downto 0);
 	OpD: out std_logic_vector(5 downto 0);
-	FunctD: out std_logic_vector(5 downto 0)
+	FunctD: out std_logic_vector(5 downto 0);
+	RsE_out: buffer std_logic_vector(4 downto 0);
+	RtE_out: buffer std_logic_vector(4 downto 0);
+	RegWriteM_out: buffer std_logic;
+	RegWriteW_out: buffer std_logic;
+	WriteRegM_out: buffer std_logic_vector(4 downto 0);
+	WriteRegW_out: buffer std_logic_vector(4 downto 0)
   );
 end;
 
@@ -119,6 +127,7 @@ architecture structure of datapath is
 		clk: in std_logic;
 		RD1: in std_logic_vector(31 downto 0);
 		RD2: in std_logic_vector(31 downto 0);
+		RsD: in std_logic_vector(4 downto 0);
 		RtD: in std_logic_vector(4 downto 0);
 		RdD: in std_logic_vector(4 downto 0);
 		SignExtendD: in std_logic_vector(31 downto 0);
@@ -132,6 +141,7 @@ architecture structure of datapath is
 		RegDstD: in std_logic;
 		SrcAE: out std_logic_vector(31 downto 0);
 		WriteDataE: out std_logic_vector(31 downto 0);
+		RsE: out std_logic_vector(4 downto 0);
 		RtE: out std_logic_vector(4 downto 0);
 		RdE: out std_logic_vector(4 downto 0);
 		SignImmE: out std_logic_vector(31 downto 0);
@@ -187,6 +197,18 @@ architecture structure of datapath is
 	  );
   end component;
 
+  component mux4 is
+    generic(w: integer := 8);
+    port(
+	  d0: in std_logic_vector(w-1 downto 0);
+	  d1: in std_logic_vector(w-1 downto 0);
+	  d2: in std_logic_vector(w-1 downto 0);
+	  d3: in std_logic_vector(w-1 downto 0);
+	  s: in std_logic_vector(1 downto 0);
+	  y: out std_logic_vector(w-1 downto 0)
+    );
+  end component;
+
 
 
 --F
@@ -199,14 +221,14 @@ signal RD1, RD2, SignExtendD, PCPlus4D, instrD, PCJumpD: std_logic_vector(31 dow
 --E
 signal ZeroE, RegWriteE, MemWriteE, MemToRegE, BranchE, ALUSrcE, RegDstE: std_logic;
 signal ALUControlE: std_logic_vector(2 downto 0);
-signal WriteRegE, RtE, RdE: std_logic_vector(4 downto 0);
-signal SrcAE, SrcBE, WriteDataE, SignImmE, PCPlus4E, SignImmEsh, ALUOutE, WriteBranchE, PCBranchE: std_logic_vector(31 downto 0);
+signal WriteRegE, RdE, RtE, RsE: std_logic_vector(4 downto 0);
+signal RD1E, RD2E, SrcAE, SrcBE, WriteDataE, SignImmE, PCPlus4E, SignImmEsh, ALUOutE, WriteBranchE, PCBranchE: std_logic_vector(31 downto 0);
 --M
-signal PCSrcM, ZeroM, RegWriteM, MemToRegM, MemWriteM, BranchM: std_logic;
+signal PCSrcM, ZeroM, MemToRegM, MemWriteM, BranchM, RegWriteM: std_logic;
 signal WriteRegM: std_logic_vector(4 downto 0);
 signal ALUOutM, WriteDataM, WriteBranchM, PCBranchM, ReadDataM: std_logic_vector(31 downto 0);
 --W
-signal RegWriteW, MemToRegW: std_logic;
+signal MemToRegW, RegWriteW: std_logic;
 signal WriteRegW: std_logic_vector(4 downto 0);
 signal AluoutW, ReaddataW, ResultW: std_logic_vector(31 downto 0);
 
@@ -281,6 +303,7 @@ begin
 						clk => clk,
 						RD1 => RD1,
 						RD2 => RD2,
+						RsD => instrD(25 downto 21),
 						RtD => RtD,
 						RdD => RdD,
 						SignExtendD => SignExtendD,
@@ -292,8 +315,9 @@ begin
 						ALUControlD => ALUControlD,
 						ALUSrcD => ALUSrcD,
 						RegDstD => RegDstD,
-						SrcAE => SrcAE,
-						WriteDataE => WriteDataE,
+						SrcAE => RD1E,
+						WriteDataE => RD2E,
+						RsE => RsE,
 						RtE => RtE,
 						RdE => RdE,
 						SignImmE => SignImmE,
@@ -342,7 +366,20 @@ begin
 										MemToRegW => MemToRegW, 
 										WriteRegW => WriteRegW);
 										
-										
+						
+	RegWriteM_out <= RegWriteM;
+	RegWriteW_out <= RegWriteW;
+	WriteRegM_out <= WriteRegM;
+	WriteRegW_out <= WriteRegW;
+	RtE_out <= RtE;
+	RsE_out <= RsE;
+
+  --Regarding Hazard-Unit
+  muxAE: mux4 generic map(w => 32) port map(d0 => RD1E, d1 => ResultW, d2 => ALUOutM, d3 => x"00000000", s => ForwardAE, y => SrcAE);
+  
+  muxBE: mux4 generic map(w => 32) port map(d0 => RD2E, d1 => ResultW, d2 => ALUOutM, d3 => x"00000000", s => ForwardBE, y => WriteDataE);
+  
+  
 end;
 
 
