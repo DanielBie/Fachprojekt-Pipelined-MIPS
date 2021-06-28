@@ -10,6 +10,9 @@ entity datapath is
     reset: in std_logic;
 	ForwardAE: in std_logic_vector(1 downto 0);
 	ForwardBE: in std_logic_vector(1 downto 0);
+	StallF: in std_logic;
+	StallD: in std_logic;
+	FlushE: in std_logic;
     MemToRegD: std_logic;
     ALUSrcD: in std_logic;
     RegDstD: in std_logic;
@@ -22,8 +25,11 @@ entity datapath is
 	FunctD: out std_logic_vector(5 downto 0);
 	RsE_out: buffer std_logic_vector(4 downto 0);
 	RtE_out: buffer std_logic_vector(4 downto 0);
+	RsD_out: buffer std_logic_vector(4 downto 0);
+	RtD_out: buffer std_logic_vector(4 downto 0);
 	RegWriteM_out: buffer std_logic;
 	RegWriteW_out: buffer std_logic;
+	MemtoRegE_out: buffer std_logic;
 	WriteRegM_out: buffer std_logic_vector(4 downto 0);
 	WriteRegW_out: buffer std_logic_vector(4 downto 0)
   );
@@ -77,10 +83,11 @@ architecture structure of datapath is
 
   component syncresff
     port(
-      clk: in std_logic;
-      reset: in std_logic;
-      d: in std_logic_vector(31 downto 0);
-      q: buffer std_logic_vector(31 downto 0)
+		clk: in std_logic;
+		reset: in std_logic;
+		StallF: in std_logic;
+		d: in std_logic_vector(31 downto 0);
+		q: buffer std_logic_vector(31 downto 0)
     );
   end component;
 
@@ -115,8 +122,9 @@ architecture structure of datapath is
   component pipeline_register_D is
 	  port (
 		clk: in std_logic;
+		StallD: in std_logic;
 		instr: in std_logic_vector(31 downto 0);
-		PCPlus4: in std_logic_vector(31 downto 0);
+	  	PCPlus4: in std_logic_vector(31 downto 0);
 		instrD: out std_logic_vector(31 downto 0);
 		PCPlus4D: out std_logic_vector(31 downto 0)
 	  );
@@ -136,6 +144,7 @@ architecture structure of datapath is
 		MemToRegD: in std_logic;
 		MemWriteD: in std_logic;
 		BranchD: in std_logic;
+		FlushE: in std_logic;
 		ALUControlD: in std_logic_vector(2 downto 0);
 		ALUSrcD: in std_logic;
 		RegDstD: in std_logic;
@@ -212,11 +221,12 @@ architecture structure of datapath is
 
 
 --F
+signal not_StallF: std_logic;
 signal pc, pcf, PCPlus4F, instrF, PCBranchF: std_logic_vector(31 downto 0);
 --D
 -- signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD: std_logic;
-signal not_clk: std_logic;
-signal RtD, RdD: std_logic_vector(4 downto 0);
+signal not_clk, not_StallD: std_logic;
+signal RtD, RdD, RsD: std_logic_vector(4 downto 0);
 signal RD1, RD2, SignExtendD, PCPlus4D, instrD, PCJumpD: std_logic_vector(31 downto 0);
 --E
 signal ZeroE, RegWriteE, MemWriteE, MemToRegE, BranchE, ALUSrcE, RegDstE: std_logic;
@@ -238,6 +248,8 @@ begin
   OpD <= instrD(31 downto 26);
   
   FunctD <= instrD(5 downto 0);
+
+  RsD <= instrD(25 downto 21);
   
   RtD <= instrD(20 downto 16);
   
@@ -247,7 +259,8 @@ begin
   PCJumpD <= PCPlus4D(31 downto 28) & InstrD(25 downto 0) & "00";
   
   -- pc register
-  pcreg: syncresff port map(clk => clk, reset => reset, d => pc, q => pcf);
+  not_StallF <= not StallF;
+  pcreg: syncresff port map(clk => clk, reset => reset, StallF => not_StallF, d => pc, q => pcf);
   
   -- adder for pc+4
   pcadd1: adder port map(pcf, x"00000004", PCPlus4F);
@@ -296,14 +309,15 @@ begin
   
   --Register:
   --Decode
-  decode: pipeline_register_D port map(clk => clk, instr => instrF, PCPlus4 => PCPlus4F, instrD => instrD, PCPlus4D => PCPlus4D);
+  not_StallD <= not StallD;
+  decode: pipeline_register_D port map(clk => clk, StallD => not_StallD, instr => instrF, PCPlus4 => PCPlus4F, instrD => instrD, PCPlus4D => PCPlus4D);
   
   --Execute
   execute: pipeline_register_E port map(
 						clk => clk,
 						RD1 => RD1,
 						RD2 => RD2,
-						RsD => instrD(25 downto 21),
+						RsD => RsD,
 						RtD => RtD,
 						RdD => RdD,
 						SignExtendD => SignExtendD,
@@ -312,6 +326,7 @@ begin
 						MemToRegD => MemToRegD,
 						MemWriteD => MemWriteD,
 						BranchD => BranchD,
+						FlushE => FlushE,
 						ALUControlD => ALUControlD,
 						ALUSrcD => ALUSrcD,
 						RegDstD => RegDstD,
@@ -371,8 +386,11 @@ begin
 	RegWriteW_out <= RegWriteW;
 	WriteRegM_out <= WriteRegM;
 	WriteRegW_out <= WriteRegW;
+	MemtoRegE_out <= MemtoRegE;
 	RtE_out <= RtE;
 	RsE_out <= RsE;
+	RtD_out <= RtD;
+	RsD_out <= RsD;
 
   --Regarding Hazard-Unit
   muxAE: mux4 generic map(w => 32) port map(d0 => RD1E, d1 => ResultW, d2 => ALUOutM, d3 => x"00000000", s => ForwardAE, y => SrcAE);

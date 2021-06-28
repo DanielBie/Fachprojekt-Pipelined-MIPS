@@ -22,20 +22,13 @@ architecture behavior of regfile is
   type ramtype is array (31 downto 0) of std_logic_vector(31 downto 0);
   signal mem: ramtype;
 begin
-  process(clk) begin
+  process(clk, a1, a2) begin
     if rising_edge(clk) then
       if we3 = '1' then mem(to_integer(unsigned(a3))) <= wd3;
       end if;
     end if;
   end process;
 
-  process(a1, a2) begin
-    if (to_integer(unsigned(a1)) = 0) then rd1 <= x"00000000";
-    else rd1 <= mem(to_integer(unsigned(a1)));
-    end if;
-
-    if (to_integer(unsigned(a2)) = 0) then rd2 <= x"00000000";
-    else rd2 <= mem(to_integer(unsigned(a2)));
-    end if;
-  end process;
+  rd1 <= x"00000000" when to_integer(unsigned(a1)) = 0 else mem(to_integer(unsigned(a1)));
+  rd2 <= x"00000000" when to_integer(unsigned(a2)) = 0 else mem(to_integer(unsigned(a2)));
 end;

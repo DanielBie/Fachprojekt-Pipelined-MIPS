@@ -1,5 +1,5 @@
 $date
-  Wed Jun 23 16:48:39 2021
+  Mon Jun 28 17:43:19 2021
 $end
 $version
   GHDL v0
@@ -16,320 +16,392 @@ $upscope $end
 $scope module mips_pipelined $end
 $var reg 1 ! clk $end
 $var reg 1 " reset $end
-$var reg 1 # regwrited $end
-$var reg 1 $ memtoregd $end
-$var reg 1 % memwrited $end
-$var reg 1 & branchd $end
-$var reg 1 ' alusrcd $end
-$var reg 1 ( regdstd $end
-$var reg 1 ) jumpd $end
-$var reg 3 * alucontrold[2:0] $end
-$var reg 6 + opd[5:0] $end
-$var reg 6 , functd[5:0] $end
+$var reg 1 # regwritem $end
+$var reg 1 $ regwritew $end
+$var reg 1 % regwrited $end
+$var reg 1 & memtoregd $end
+$var reg 1 ' memtorege $end
+$var reg 1 ( memwrited $end
+$var reg 1 ) branchd $end
+$var reg 1 * alusrcd $end
+$var reg 1 + regdstd $end
+$var reg 1 , jumpd $end
+$var reg 1 - stalld $end
+$var reg 1 . stallf $end
+$var reg 1 / flushe $end
+$var reg 2 0 forwardae[1:0] $end
+$var reg 2 1 forwardbe[1:0] $end
+$var reg 3 2 alucontrold[2:0] $end
+$var reg 5 3 rse[4:0] $end
+$var reg 5 4 rte[4:0] $end
+$var reg 5 5 rsd[4:0] $end
+$var reg 5 6 rtd[4:0] $end
+$var reg 5 7 writeregm[4:0] $end
+$var reg 5 8 writeregw[4:0] $end
+$var reg 6 9 opd[5:0] $end
+$var reg 6 : functd[5:0] $end
 $scope module mips_control $end
-$var reg 6 - op[5:0] $end
-$var reg 6 . funct[5:0] $end
-$var reg 1 / regwrited $end
-$var reg 1 0 memtoregd $end
-$var reg 1 1 memwrited $end
-$var reg 1 2 branchd $end
-$var reg 3 3 alucontrold[2:0] $end
-$var reg 1 4 alusrcd $end
-$var reg 1 5 regdstd $end
-$var reg 1 6 jumpd $end
-$var reg 2 7 aluop[1:0] $end
+$var reg 6 ; op[5:0] $end
+$var reg 6 < funct[5:0] $end
+$var reg 1 = regwrited $end
+$var reg 1 > memtoregd $end
+$var reg 1 ? memwrited $end
+$var reg 1 @ branchd $end
+$var reg 3 A alucontrold[2:0] $end
+$var reg 1 B alusrcd $end
+$var reg 1 C regdstd $end
+$var reg 1 D jumpd $end
+$var reg 2 E aluop[1:0] $end
 $scope module md $end
-$var reg 6 8 op[5:0] $end
-$var reg 1 9 memtoreg $end
-$var reg 1 : memwrite $end
-$var reg 1 ; branch $end
-$var reg 1 < alusrc $end
-$var reg 1 = regdst $end
-$var reg 1 > regwrite $end
-$var reg 1 ? jump $end
-$var reg 2 @ aluop[1:0] $end
-$var reg 9 A controls[8:0] $end
+$var reg 6 F op[5:0] $end
+$var reg 1 G memtoreg $end
+$var reg 1 H memwrite $end
+$var reg 1 I branch $end
+$var reg 1 J alusrc $end
+$var reg 1 K regdst $end
+$var reg 1 L regwrite $end
+$var reg 1 M jump $end
+$var reg 2 N aluop[1:0] $end
+$var reg 9 O controls[8:0] $end
 $upscope $end
 $scope module ad $end
-$var reg 6 B funct[5:0] $end
-$var reg 2 C aluop[1:0] $end
-$var reg 3 D alucontrole[2:0] $end
+$var reg 6 P funct[5:0] $end
+$var reg 2 Q aluop[1:0] $end
+$var reg 3 R alucontrole[2:0] $end
 $upscope $end
 $upscope $end
 $scope module mips_datapath $end
-$var reg 1 E clk $end
-$var reg 1 F reset $end
-$var reg 1 G memtoregd $end
-$var reg 1 H alusrcd $end
-$var reg 1 I regdstd $end
-$var reg 1 J regwrited $end
-$var reg 1 K jump $end
-$var reg 1 L memwrited $end
-$var reg 1 M branchd $end
-$var reg 3 N alucontrold[2:0] $end
-$var reg 6 O opd[5:0] $end
-$var reg 6 P functd[5:0] $end
-$var reg 32 Q pc[31:0] $end
-$var reg 32 R pcf[31:0] $end
-$var reg 32 S pcplus4f[31:0] $end
-$var reg 32 T instrf[31:0] $end
-$var reg 32 U pcbranchf[31:0] $end
-$var reg 1 V not_clk $end
-$var reg 5 W rtd[4:0] $end
-$var reg 5 X rdd[4:0] $end
-$var reg 32 Y rd1[31:0] $end
-$var reg 32 Z rd2[31:0] $end
-$var reg 32 [ signextendd[31:0] $end
-$var reg 32 \ pcplus4d[31:0] $end
-$var reg 32 ] instrd[31:0] $end
-$var reg 32 ^ pcjumpd[31:0] $end
-$var reg 1 _ zeroe $end
-$var reg 1 ` regwritee $end
-$var reg 1 a memwritee $end
-$var reg 1 b memtorege $end
-$var reg 1 c branche $end
-$var reg 1 d alusrce $end
-$var reg 1 e regdste $end
-$var reg 3 f alucontrole[2:0] $end
-$var reg 5 g writerege[4:0] $end
-$var reg 5 h rte[4:0] $end
-$var reg 5 i rde[4:0] $end
-$var reg 32 j srcae[31:0] $end
-$var reg 32 k srcbe[31:0] $end
-$var reg 32 l writedatae[31:0] $end
-$var reg 32 m signimme[31:0] $end
-$var reg 32 n pcplus4e[31:0] $end
-$var reg 32 o signimmesh[31:0] $end
-$var reg 32 p aluoute[31:0] $end
-$var reg 32 q writebranche[31:0] $end
-$var reg 32 r pcbranche[31:0] $end
-$var reg 1 s pcsrcm $end
-$var reg 1 t zerom $end
-$var reg 1 u regwritem $end
-$var reg 1 v memtoregm $end
-$var reg 1 w memwritem $end
-$var reg 1 x branchm $end
-$var reg 5 y writeregm[4:0] $end
-$var reg 32 z aluoutm[31:0] $end
-$var reg 32 { writedatam[31:0] $end
-$var reg 32 | writebranchm[31:0] $end
-$var reg 32 } pcbranchm[31:0] $end
-$var reg 32 !" readdatam[31:0] $end
-$var reg 1 "" regwritew $end
-$var reg 1 #" memtoregw $end
-$var reg 5 $" writeregw[4:0] $end
-$var reg 32 %" aluoutw[31:0] $end
-$var reg 32 &" readdataw[31:0] $end
-$var reg 32 '" resultw[31:0] $end
+$var reg 1 S clk $end
+$var reg 1 T reset $end
+$var reg 2 U forwardae[1:0] $end
+$var reg 2 V forwardbe[1:0] $end
+$var reg 1 W stallf $end
+$var reg 1 X stalld $end
+$var reg 1 Y flushe $end
+$var reg 1 Z memtoregd $end
+$var reg 1 [ alusrcd $end
+$var reg 1 \ regdstd $end
+$var reg 1 ] regwrited $end
+$var reg 1 ^ jump $end
+$var reg 1 _ memwrited $end
+$var reg 1 ` branchd $end
+$var reg 3 a alucontrold[2:0] $end
+$var reg 6 b opd[5:0] $end
+$var reg 6 c functd[5:0] $end
+$var reg 5 d rse_out[4:0] $end
+$var reg 5 e rte_out[4:0] $end
+$var reg 5 f rsd_out[4:0] $end
+$var reg 5 g rtd_out[4:0] $end
+$var reg 1 h regwritem_out $end
+$var reg 1 i regwritew_out $end
+$var reg 1 j memtorege_out $end
+$var reg 5 k writeregm_out[4:0] $end
+$var reg 5 l writeregw_out[4:0] $end
+$var reg 1 m not_stallf $end
+$var reg 32 n pc[31:0] $end
+$var reg 32 o pcf[31:0] $end
+$var reg 32 p pcplus4f[31:0] $end
+$var reg 32 q instrf[31:0] $end
+$var reg 32 r pcbranchf[31:0] $end
+$var reg 1 s not_clk $end
+$var reg 1 t not_stalld $end
+$var reg 5 u rtd[4:0] $end
+$var reg 5 v rdd[4:0] $end
+$var reg 5 w rsd[4:0] $end
+$var reg 32 x rd1[31:0] $end
+$var reg 32 y rd2[31:0] $end
+$var reg 32 z signextendd[31:0] $end
+$var reg 32 { pcplus4d[31:0] $end
+$var reg 32 | instrd[31:0] $end
+$var reg 32 } pcjumpd[31:0] $end
+$var reg 1 !" zeroe $end
+$var reg 1 "" regwritee $end
+$var reg 1 #" memwritee $end
+$var reg 1 $" memtorege $end
+$var reg 1 %" branche $end
+$var reg 1 &" alusrce $end
+$var reg 1 '" regdste $end
+$var reg 3 (" alucontrole[2:0] $end
+$var reg 5 )" writerege[4:0] $end
+$var reg 5 *" rde[4:0] $end
+$var reg 5 +" rte[4:0] $end
+$var reg 5 ," rse[4:0] $end
+$var reg 32 -" rd1e[31:0] $end
+$var reg 32 ." rd2e[31:0] $end
+$var reg 32 /" srcae[31:0] $end
+$var reg 32 0" srcbe[31:0] $end
+$var reg 32 1" writedatae[31:0] $end
+$var reg 32 2" signimme[31:0] $end
+$var reg 32 3" pcplus4e[31:0] $end
+$var reg 32 4" signimmesh[31:0] $end
+$var reg 32 5" aluoute[31:0] $end
+$var reg 32 6" writebranche[31:0] $end
+$var reg 32 7" pcbranche[31:0] $end
+$var reg 1 8" pcsrcm $end
+$var reg 1 9" zerom $end
+$var reg 1 :" memtoregm $end
+$var reg 1 ;" memwritem $end
+$var reg 1 <" branchm $end
+$var reg 1 =" regwritem $end
+$var reg 5 >" writeregm[4:0] $end
+$var reg 32 ?" aluoutm[31:0] $end
+$var reg 32 @" writedatam[31:0] $end
+$var reg 32 A" writebranchm[31:0] $end
+$var reg 32 B" pcbranchm[31:0] $end
+$var reg 32 C" readdatam[31:0] $end
+$var reg 1 D" memtoregw $end
+$var reg 1 E" regwritew $end
+$var reg 5 F" writeregw[4:0] $end
+$var reg 32 G" aluoutw[31:0] $end
+$var reg 32 H" readdataw[31:0] $end
+$var reg 32 I" resultw[31:0] $end
 $scope module pcreg $end
-$var reg 1 (" clk $end
-$var reg 1 )" reset $end
-$var reg 32 *" d[31:0] $end
-$var reg 32 +" q[31:0] $end
+$var reg 1 J" clk $end
+$var reg 1 K" reset $end
+$var reg 1 L" stallf $end
+$var reg 32 M" d[31:0] $end
+$var reg 32 N" q[31:0] $end
 $upscope $end
 $scope module pcadd1 $end
-$var reg 32 ," a[31:0] $end
-$var reg 32 -" b[31:0] $end
-$var reg 32 ." y[31:0] $end
+$var reg 32 O" a[31:0] $end
+$var reg 32 P" b[31:0] $end
+$var reg 32 Q" y[31:0] $end
 $upscope $end
 $scope module immsh $end
-$var reg 32 /" a[31:0] $end
-$var reg 32 0" y[31:0] $end
+$var reg 32 R" a[31:0] $end
+$var reg 32 S" y[31:0] $end
 $upscope $end
 $scope module pcadd2 $end
-$var reg 32 1" a[31:0] $end
-$var reg 32 2" b[31:0] $end
-$var reg 32 3" y[31:0] $end
+$var reg 32 T" a[31:0] $end
+$var reg 32 U" b[31:0] $end
+$var reg 32 V" y[31:0] $end
 $upscope $end
 $scope module pcbrmux $end
-$var reg 32 4" d0[31:0] $end
-$var reg 32 5" d1[31:0] $end
-$var reg 1 6" s $end
-$var reg 32 7" y[31:0] $end
+$var reg 32 W" d0[31:0] $end
+$var reg 32 X" d1[31:0] $end
+$var reg 1 Y" s $end
+$var reg 32 Z" y[31:0] $end
 $upscope $end
 $scope module pcmux $end
-$var reg 32 8" d0[31:0] $end
-$var reg 32 9" d1[31:0] $end
-$var reg 1 :" s $end
-$var reg 32 ;" y[31:0] $end
+$var reg 32 [" d0[31:0] $end
+$var reg 32 \" d1[31:0] $end
+$var reg 1 ]" s $end
+$var reg 32 ^" y[31:0] $end
 $upscope $end
 $scope module rf $end
-$var reg 1 <" clk $end
-$var reg 1 =" we3 $end
-$var reg 5 >" a1[4:0] $end
-$var reg 5 ?" a2[4:0] $end
-$var reg 5 @" a3[4:0] $end
-$var reg 32 A" wd3[31:0] $end
-$var reg 32 B" rd1[31:0] $end
-$var reg 32 C" rd2[31:0] $end
+$var reg 1 _" clk $end
+$var reg 1 `" we3 $end
+$var reg 5 a" a1[4:0] $end
+$var reg 5 b" a2[4:0] $end
+$var reg 5 c" a3[4:0] $end
+$var reg 32 d" wd3[31:0] $end
+$var reg 32 e" rd1[31:0] $end
+$var reg 32 f" rd2[31:0] $end
 $comment mem is not handled $end
 $upscope $end
 $scope module wrmux $end
-$var reg 5 D" d0[4:0] $end
-$var reg 5 E" d1[4:0] $end
-$var reg 1 F" s $end
-$var reg 5 G" y[4:0] $end
+$var reg 5 g" d0[4:0] $end
+$var reg 5 h" d1[4:0] $end
+$var reg 1 i" s $end
+$var reg 5 j" y[4:0] $end
 $upscope $end
 $scope module resmux $end
-$var reg 32 H" d0[31:0] $end
-$var reg 32 I" d1[31:0] $end
-$var reg 1 J" s $end
-$var reg 32 K" y[31:0] $end
+$var reg 32 k" d0[31:0] $end
+$var reg 32 l" d1[31:0] $end
+$var reg 1 m" s $end
+$var reg 32 n" y[31:0] $end
 $upscope $end
 $scope module se $end
-$var reg 16 L" a[15:0] $end
-$var reg 32 M" aext[31:0] $end
+$var reg 16 o" a[15:0] $end
+$var reg 32 p" aext[31:0] $end
 $upscope $end
 $scope module srcbmux $end
-$var reg 32 N" d0[31:0] $end
-$var reg 32 O" d1[31:0] $end
-$var reg 1 P" s $end
-$var reg 32 Q" y[31:0] $end
+$var reg 32 q" d0[31:0] $end
+$var reg 32 r" d1[31:0] $end
+$var reg 1 s" s $end
+$var reg 32 t" y[31:0] $end
 $upscope $end
 $scope module mainalu $end
-$var reg 32 R" a[31:0] $end
-$var reg 32 S" b[31:0] $end
-$var reg 3 T" alucontrol[2:0] $end
-$var reg 32 U" result[31:0] $end
-$var reg 1 V" zero $end
+$var reg 32 u" a[31:0] $end
+$var reg 32 v" b[31:0] $end
+$var reg 3 w" alucontrol[2:0] $end
+$var reg 32 x" result[31:0] $end
+$var reg 1 y" zero $end
 $upscope $end
 $scope module instmem $end
-$var reg 32 W" pc[31:0] $end
-$var reg 32 X" instr[31:0] $end
+$var reg 32 z" pc[31:0] $end
+$var reg 32 {" instr[31:0] $end
 $comment mem is not handled $end
 $upscope $end
 $scope module datamem $end
-$var reg 1 Y" clk $end
-$var reg 32 Z" addr[31:0] $end
-$var reg 32 [" data_in[31:0] $end
-$var reg 1 \" memwrite $end
-$var reg 32 ]" data_out[31:0] $end
+$var reg 1 |" clk $end
+$var reg 32 }" addr[31:0] $end
+$var reg 32 !# data_in[31:0] $end
+$var reg 1 "# memwrite $end
+$var reg 32 ## data_out[31:0] $end
 $comment mem is not handled $end
 $upscope $end
 $scope module decode $end
-$var reg 1 ^" clk $end
-$var reg 32 _" instr[31:0] $end
-$var reg 32 `" pcplus4[31:0] $end
-$var reg 32 a" instrd[31:0] $end
-$var reg 32 b" pcplus4d[31:0] $end
+$var reg 1 $# clk $end
+$var reg 1 %# stalld $end
+$var reg 32 &# instr[31:0] $end
+$var reg 32 '# pcplus4[31:0] $end
+$var reg 32 (# instrd[31:0] $end
+$var reg 32 )# pcplus4d[31:0] $end
 $comment mem is not handled $end
 $upscope $end
 $scope module execute $end
-$var reg 1 c" clk $end
-$var reg 32 d" rd1[31:0] $end
-$var reg 32 e" rd2[31:0] $end
-$var reg 5 f" rtd[4:0] $end
-$var reg 5 g" rdd[4:0] $end
-$var reg 32 h" signextendd[31:0] $end
-$var reg 32 i" pcplus4d[31:0] $end
-$var reg 1 j" regwrited $end
-$var reg 1 k" memtoregd $end
-$var reg 1 l" memwrited $end
-$var reg 1 m" branchd $end
-$var reg 3 n" alucontrold[2:0] $end
-$var reg 1 o" alusrcd $end
-$var reg 1 p" regdstd $end
-$var reg 32 q" srcae[31:0] $end
-$var reg 32 r" writedatae[31:0] $end
-$var reg 5 s" rte[4:0] $end
-$var reg 5 t" rde[4:0] $end
-$var reg 32 u" signimme[31:0] $end
-$var reg 32 v" pcplus4e[31:0] $end
-$var reg 1 w" regwritee $end
-$var reg 1 x" memtorege $end
-$var reg 1 y" memwritee $end
-$var reg 1 z" branche $end
-$var reg 3 {" alucontrole[2:0] $end
-$var reg 1 |" alusrce $end
-$var reg 1 }" regdste $end
+$var reg 1 *# clk $end
+$var reg 32 +# rd1[31:0] $end
+$var reg 32 ,# rd2[31:0] $end
+$var reg 5 -# rsd[4:0] $end
+$var reg 5 .# rtd[4:0] $end
+$var reg 5 /# rdd[4:0] $end
+$var reg 32 0# signextendd[31:0] $end
+$var reg 32 1# pcplus4d[31:0] $end
+$var reg 1 2# regwrited $end
+$var reg 1 3# memtoregd $end
+$var reg 1 4# memwrited $end
+$var reg 1 5# branchd $end
+$var reg 1 6# flushe $end
+$var reg 3 7# alucontrold[2:0] $end
+$var reg 1 8# alusrcd $end
+$var reg 1 9# regdstd $end
+$var reg 32 :# srcae[31:0] $end
+$var reg 32 ;# writedatae[31:0] $end
+$var reg 5 <# rse[4:0] $end
+$var reg 5 =# rte[4:0] $end
+$var reg 5 ># rde[4:0] $end
+$var reg 32 ?# signimme[31:0] $end
+$var reg 32 @# pcplus4e[31:0] $end
+$var reg 1 A# regwritee $end
+$var reg 1 B# memtorege $end
+$var reg 1 C# memwritee $end
+$var reg 1 D# branche $end
+$var reg 3 E# alucontrole[2:0] $end
+$var reg 1 F# alusrce $end
+$var reg 1 G# regdste $end
 $comment mem_32 is not handled $end
 $comment mem_5 is not handled $end
 $comment mem_3 is not handled $end
-$var reg 7 !# mem_1[6:0] $end
+$var reg 7 H# mem_1[6:0] $end
 $upscope $end
 $scope module memory $end
-$var reg 1 "# clk $end
-$var reg 1 ## zeroe $end
-$var reg 32 $# aluoute[31:0] $end
-$var reg 32 %# writedatae[31:0] $end
-$var reg 5 &# writerege[4:0] $end
-$var reg 32 '# pcbranche[31:0] $end
-$var reg 1 (# regwritee $end
-$var reg 1 )# memtorege $end
-$var reg 1 *# memwritee $end
-$var reg 1 +# branche $end
-$var reg 1 ,# zerom $end
-$var reg 32 -# aluoutm[31:0] $end
-$var reg 32 .# writedatam[31:0] $end
-$var reg 5 /# writeregm[4:0] $end
-$var reg 32 0# pcbranchm[31:0] $end
-$var reg 1 1# regwritem $end
-$var reg 1 2# memtoregm $end
-$var reg 1 3# memwritem $end
-$var reg 1 4# branchm $end
+$var reg 1 I# clk $end
+$var reg 1 J# zeroe $end
+$var reg 32 K# aluoute[31:0] $end
+$var reg 32 L# writedatae[31:0] $end
+$var reg 5 M# writerege[4:0] $end
+$var reg 32 N# pcbranche[31:0] $end
+$var reg 1 O# regwritee $end
+$var reg 1 P# memtorege $end
+$var reg 1 Q# memwritee $end
+$var reg 1 R# branche $end
+$var reg 1 S# zerom $end
+$var reg 32 T# aluoutm[31:0] $end
+$var reg 32 U# writedatam[31:0] $end
+$var reg 5 V# writeregm[4:0] $end
+$var reg 32 W# pcbranchm[31:0] $end
+$var reg 1 X# regwritem $end
+$var reg 1 Y# memtoregm $end
+$var reg 1 Z# memwritem $end
+$var reg 1 [# branchm $end
 $comment mem_32 is not handled $end
 $comment mem_5 is not handled $end
-$var reg 5 5# mem_1[4:0] $end
+$var reg 5 \# mem_1[4:0] $end
 $upscope $end
 $scope module writeback $end
-$var reg 1 6# clk $end
-$var reg 32 7# aluoutm[31:0] $end
-$var reg 32 8# readdatam[31:0] $end
-$var reg 1 9# regwritem $end
-$var reg 1 :# memtoregm $end
-$var reg 5 ;# writeregm[4:0] $end
-$var reg 32 <# aluoutw[31:0] $end
-$var reg 32 =# readdataw[31:0] $end
-$var reg 1 ># regwritew $end
-$var reg 1 ?# memtoregw $end
-$var reg 5 @# writeregw[4:0] $end
+$var reg 1 ]# clk $end
+$var reg 32 ^# aluoutm[31:0] $end
+$var reg 32 _# readdatam[31:0] $end
+$var reg 1 `# regwritem $end
+$var reg 1 a# memtoregm $end
+$var reg 5 b# writeregm[4:0] $end
+$var reg 32 c# aluoutw[31:0] $end
+$var reg 32 d# readdataw[31:0] $end
+$var reg 1 e# regwritew $end
+$var reg 1 f# memtoregw $end
+$var reg 5 g# writeregw[4:0] $end
 $comment mem is not handled $end
-$var reg 1 A# regwrite $end
-$var reg 1 B# memtoreg $end
-$var reg 5 C# writereg[4:0] $end
+$var reg 1 h# regwrite $end
+$var reg 1 i# memtoreg $end
+$var reg 5 j# writereg[4:0] $end
 $upscope $end
+$scope module muxae $end
+$var reg 32 k# d0[31:0] $end
+$var reg 32 l# d1[31:0] $end
+$var reg 32 m# d2[31:0] $end
+$var reg 32 n# d3[31:0] $end
+$var reg 2 o# s[1:0] $end
+$var reg 32 p# y[31:0] $end
+$upscope $end
+$scope module muxbe $end
+$var reg 32 q# d0[31:0] $end
+$var reg 32 r# d1[31:0] $end
+$var reg 32 s# d2[31:0] $end
+$var reg 32 t# d3[31:0] $end
+$var reg 2 u# s[1:0] $end
+$var reg 32 v# y[31:0] $end
+$upscope $end
+$upscope $end
+$scope module hazard_mips $end
+$var reg 5 w# rse[4:0] $end
+$var reg 5 x# rte[4:0] $end
+$var reg 5 y# rsd[4:0] $end
+$var reg 5 z# rtd[4:0] $end
+$var reg 1 {# regwritem $end
+$var reg 1 |# regwritew $end
+$var reg 1 }# memtorege $end
+$var reg 5 !$ writeregm[4:0] $end
+$var reg 5 "$ writeregw[4:0] $end
+$var reg 2 #$ forwardae[1:0] $end
+$var reg 2 $$ forwardbe[1:0] $end
+$var reg 1 %$ stallf $end
+$var reg 1 &$ stalld $end
+$var reg 1 '$ flushe $end
+$var reg 1 ($ lwstall $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 U!
 U"
--#
--$
+U#
+U$
 -%
 -&
--'
+U'
 -(
 -)
-b--- *
-bUUUUUU +
-bUUUUUU ,
-bUUUUUU -
-bUUUUUU .
--/
--0
--1
--2
-b--- 3
--4
--5
--6
-b-- 7
-bUUUUUU 8
--9
--:
--;
--<
+-*
+-+
+-,
+0-
+0.
+0/
+b00 0
+b00 1
+b--- 2
+bUUUUU 3
+bUUUUU 4
+bUUUUU 5
+bUUUUU 6
+bUUUUU 7
+bUUUUU 8
+bUUUUUU 9
+bUUUUUU :
+bUUUUUU ;
+bUUUUUU <
 -=
 ->
 -?
-b-- @
-b--------- A
-bUUUUUU B
-b-- C
-b--- D
-UE
-UF
+-@
+b--- A
+-B
+-C
+-D
+b-- E
+bUUUUUU F
 -G
 -H
 -I
@@ -337,179 +409,245 @@ UF
 -K
 -L
 -M
-b--- N
-bUUUUUU O
+b-- N
+b--------- O
 bUUUUUU P
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Q
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU R
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX S
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU T
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX U
-UV
-bUUUUU W
-bUUUUU X
-b00000000000000000000000000000000 Y
-b00000000000000000000000000000000 Z
-b0000000000000000UUUUUUUUUUUUUUUU [
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU \
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ]
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 ^
-0_
-U`
-Ua
-Ub
-Uc
-Ud
-Ue
-bUUU f
+b-- Q
+b--- R
+US
+UT
+b00 U
+b00 V
+0W
+0X
+0Y
+-Z
+-[
+-\
+-]
+-^
+-_
+-`
+b--- a
+bUUUUUU b
+bUUUUUU c
+bUUUUU d
+bUUUUU e
+bUUUUU f
 bUUUUU g
-bUUUUU h
-bUUUUU i
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU j
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU k
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU l
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU m
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU n
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 o
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU p
+Uh
+Ui
+Uj
+bUUUUU k
+bUUUUU l
+1m
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX n
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU o
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX p
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU q
 bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX r
 Us
-Ut
-Uu
-Uv
-Uw
-Ux
-bUUUUU y
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU z
+1t
+bUUUUU u
+bUUUUU v
+bUUUUU w
+b00000000000000000000000000000000 x
+b00000000000000000000000000000000 y
+b0000000000000000UUUUUUUUUUUUUUUU z
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU {
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU |
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU }
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU !"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 }
+0!"
 U""
 U#"
-bUUUUU $"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU %"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU &"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU '"
-U("
-U)"
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX *"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU +"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ,"
-b00000000000000000000000000000100 -"
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ."
+U$"
+U%"
+U&"
+U'"
+bUUU ("
+bUUUUU )"
+bUUUUU *"
+bUUUUU +"
+bUUUUU ,"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ."
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU /"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 0"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 0"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 1"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 2"
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 3"
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 4"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 2"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 3"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 4"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 5"
-U6"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 6"
 bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 7"
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 8"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 9"
--:"
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;"
+U8"
+U9"
+U:"
+U;"
 U<"
 U="
 bUUUUU >"
-bUUUUU ?"
-bUUUUU @"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ?"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU @"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU A"
-b00000000000000000000000000000000 B"
-b00000000000000000000000000000000 C"
-bUUUUU D"
-bUUUUU E"
-UF"
-bUUUUU G"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU B"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU C"
+UD"
+UE"
+bUUUUU F"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU G"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU H"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU I"
 UJ"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU K"
-bUUUUUUUUUUUUUUUU L"
-b0000000000000000UUUUUUUUUUUUUUUU M"
+UK"
+1L"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX M"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU N"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU O"
-UP"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU Q"
+b00000000000000000000000000000100 P"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Q"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU R"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU S"
-bUUU T"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU U"
-0V"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU W"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 S"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU T"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 U"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX V"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX W"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU X"
 UY"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU Z"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ["
-U\"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ]"
-U^"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU _"
-bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX `"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU a"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU b"
-Uc"
-b00000000000000000000000000000000 d"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Z"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ["
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU00 \"
+-]"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ^"
+U_"
+U`"
+bUUUUU a"
+bUUUUU b"
+bUUUUU c"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU d"
 b00000000000000000000000000000000 e"
-bUUUUU f"
+b00000000000000000000000000000000 f"
 bUUUUU g"
-b0000000000000000UUUUUUUUUUUUUUUU h"
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU i"
--j"
--k"
--l"
--m"
-b--- n"
--o"
--p"
+bUUUUU h"
+Ui"
+bUUUUU j"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU k"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU l"
+Um"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU n"
+bUUUUUUUUUUUUUUUU o"
+b0000000000000000UUUUUUUUUUUUUUUU p"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU q"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU r"
-bUUUUU s"
-bUUUUU t"
+Us"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU t"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU u"
 bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU v"
-Uw"
-Ux"
-Uy"
-Uz"
-bUUU {"
+bUUU w"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU x"
+0y"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU z"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU {"
 U|"
-U}"
-bUUUUUUU !#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU }"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU !#
 U"#
-0##
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU $#
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU %#
-bUUUUU &#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ##
+U$#
+1%#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU &#
 bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX '#
-U(#
-U)#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU (#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU )#
 U*#
-U+#
-U,#
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -#
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU .#
+b00000000000000000000000000000000 +#
+b00000000000000000000000000000000 ,#
+bUUUUU -#
+bUUUUU .#
 bUUUUU /#
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 0#
-U1#
-U2#
-U3#
-U4#
-bUUUUU 5#
-U6#
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 7#
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 8#
-U9#
-U:#
-bUUUUU ;#
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU <#
-bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU =#
-U>#
-U?#
-bUUUUU @#
+b0000000000000000UUUUUUUUUUUUUUUU 0#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 1#
+-2#
+-3#
+-4#
+-5#
+06#
+b--- 7#
+-8#
+-9#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU :#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ;#
+bUUUUU <#
+bUUUUU =#
+bUUUUU >#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ?#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU @#
 UA#
 UB#
-bUUUUU C#
+UC#
+UD#
+bUUU E#
+UF#
+UG#
+bUUUUUUU H#
+UI#
+0J#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU K#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU L#
+bUUUUU M#
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX N#
+UO#
+UP#
+UQ#
+UR#
+US#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU T#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU U#
+bUUUUU V#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU W#
+UX#
+UY#
+UZ#
+U[#
+bUUUUU \#
+U]#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ^#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU _#
+U`#
+Ua#
+bUUUUU b#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU c#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU d#
+Ue#
+Uf#
+bUUUUU g#
+Uh#
+Ui#
+bUUUUU j#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU k#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU l#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU m#
+b00000000000000000000000000000000 n#
+b00 o#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU p#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU q#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU r#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU s#
+b00000000000000000000000000000000 t#
+b00 u#
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU v#
+bUUUUU w#
+bUUUUU x#
+bUUUUU y#
+bUUUUU z#
+U{#
+U|#
+U}#
+bUUUUU !$
+bUUUUU "$
+b00 #$
+b00 $$
+0%$
+0&$
+0'$
+0($

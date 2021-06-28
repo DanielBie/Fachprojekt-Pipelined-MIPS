@@ -15,6 +15,7 @@ entity pipeline_register_E is
 	MemToRegD: in std_logic;
 	MemWriteD: in std_logic;
 	BranchD: in std_logic;
+	FlushE: in std_logic;
 	ALUControlD: in std_logic_vector(2 downto 0);
 	ALUSrcD: in std_logic;
 	RegDstD: in std_logic;
@@ -65,7 +66,16 @@ begin
 	   mem_32(2) <= SignExtendD;
 	   mem_32(3) <= PCPlus4D;
     end if;
+	if FlushE = '1' then
+		mem_1(0) <= '0';
+		mem_1(2) <= '0';
+		mem_1(3) <= '0';
+		mem_5(0) <= "00000";
+		mem_5(1) <= "00000";
+		mem_5(2) <= "00000";
+	end if;
   end process;
+
   
   
   RegWriteE <= mem_1(0);
