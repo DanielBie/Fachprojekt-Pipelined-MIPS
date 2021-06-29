@@ -41,7 +41,7 @@ begin
 	end process;
 
 	--Stalling
-  	process (RsD, RtE, RtD, MemToRegE) begin
+  	process (RsD, RtE, RtD, MemToRegE) begin -- lwstall wird durch reset von pipeline_register_E zu frueh zurueckgesetzt -> beim naechsten Takt bereits wieder auf 0
 		if (((RsD = RtE) or (RtD = RtE)) and (MemToRegE = '1')) then
 			lwstall <= '1';
 		else 

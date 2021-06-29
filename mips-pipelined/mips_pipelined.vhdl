@@ -119,6 +119,7 @@ begin
     RtD_out => RtD,
     RegWriteM_out => RegWriteM,
     RegWriteW_out => RegWriteW,
+	MemtoRegE_out => MemToRegE,
     WriteRegM_out => WriteRegM,
     WriteRegW_out => WriteRegW
   );
