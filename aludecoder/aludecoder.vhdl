@@ -16,15 +16,15 @@ architecture behavior of aludecoder is
 begin
     process (funct, aluop) begin
         case aluop is
-        when "00"     => AluControlE <= "010"; -- add (for lw/sw/addi)
-        when "01"     => AluControlE <= "110"; -- sub (for beq)
-        when others   => case funct is
-        when "100000" => AluControlE <= "010"; -- add
-        when "100010" => AluControlE <= "110"; -- sub
-        when "100100" => AluControlE <= "000"; -- and
-        when "100101" => AluControlE <= "001"; -- or
-        when "101010" => AluControlE <= "111"; -- slt
-        when others   => AluControlE   <= "---"; -- wrong entry in funct
+            when "00"     => AluControlE <= "010"; -- add (for lw/sw/addi)
+            when "01"     => AluControlE <= "110"; -- sub (for beq)
+            when others   => case funct is
+            when "100000" => AluControlE <= "010"; -- add
+            when "100010" => AluControlE <= "110"; -- sub
+            when "100100" => AluControlE <= "000"; -- and
+            when "100101" => AluControlE <= "001"; -- or
+            when "101010" => AluControlE <= "111"; -- slt
+            when others   => AluControlE   <= "---"; -- wrong entry in funct
         end case;
     end case;
 end process;

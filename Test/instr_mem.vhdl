@@ -6,15 +6,15 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity instr_mem is
-  port (
-    pc: in std_logic_vector(31 downto 0);
-    instr: out std_logic_vector(31 downto 0)
-  );
+    port (
+        pc: in std_logic_vector(31 downto 0);
+        instr: out std_logic_vector(31 downto 0)
+    );
 end;
 
 architecture behavior of instr_mem is
-  type ramtype is array (255 downto 0) of std_logic_vector(31 downto 0);
-  signal mem: ramtype;
+    type ramtype is array (255 downto 0) of std_logic_vector(31 downto 0);
+    signal mem: ramtype;
 begin
     mem(0) <= "00100000000000010000000000000010"; -- addi $1 $0 2
 	
@@ -115,8 +115,8 @@ begin
 	
 	--mem(5) <= "00000000000000000000000000100000"; -- idle
 
-  process(pc) begin
-	instr <= mem(to_integer(unsigned(pc(31 downto 2))));
-	
-  end process;
+    process(pc) begin
+        instr <= mem(to_integer(unsigned(pc(31 downto 2))));
+        
+    end process;
 end;
