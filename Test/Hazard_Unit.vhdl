@@ -31,6 +31,7 @@ begin
             ForwardAE      <= "01";
         else ForwardAE <= "00";
         end if;
+    end process;
 
 	--Stalling
   	process (RsD, RtE, RtD, MemToRegE) begin -- lwstall wird durch reset von pipeline_register_E zu frueh zurueckgesetzt -> beim naechsten Takt bereits wieder auf 0
@@ -41,16 +42,6 @@ begin
 		end if;
 		-- lwstall <= (((RsD = RtE) or (RtD = RtE)) and (MemToRegE = '1'));
 	end process;
-
-    --Stalling
-    process (RsD, RtE, RtD, MemToRegE) begin
-        if (((RsD = RtE) or (RtD = RtE)) and (MemToRegE = '1')) then
-            lwstall <= '1';
-        else
-            lwstall <= '0';
-        end if;
-        -- lwstall <= (((RsD = RtE) or (RtD = RtE)) and (MemToRegE = '1'));
-    end process;
 
     StallF <= lwstall;
     StallD <= lwstall;
