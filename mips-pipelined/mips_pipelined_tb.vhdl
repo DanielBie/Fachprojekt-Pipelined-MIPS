@@ -247,4 +247,42 @@ begin
         wait;
     end process;
 
+process begin
+-- reset
+clk <= '0';
+reset <= '1';
+wait for 10 ns;
+clk <= '0';
+reset <= '0';
+wait for 10 ns;
+
+-- do cycles
+for i in 1 to 26 loop
+	clk <= '1';
+	wait for 10 ns;
+	clk <= '0';
+	wait for 10 ns;
+end loop;
+
+-- last 4 cycles of last instruction
+clk <= '1';
+wait for 10 ns;
+clk <= '0';
+wait for 10 ns;
+clk <= '1';
+wait for 10 ns;
+clk <= '0';
+wait for 10 ns;
+clk <= '1';
+wait for 10 ns;
+clk <= '0';
+wait for 10 ns;
+clk <= '1';
+wait for 10 ns;
+clk <= '0';
+wait for 10 ns;
+
+wait;
+end process;
+  
 end;
