@@ -6,42 +6,42 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity pipeline_register_W is
-  port (
-    clk: in std_logic;
-    AluoutM: in std_logic_vector(31 downto 0);
-	ReaddataM: in std_logic_vector(31 downto 0);
-	RegWriteM: in std_logic;
-	MemToRegM: in std_logic;
-	WriteRegM: in std_logic_vector(4 downto 0);
-    AluoutW: out std_logic_vector(31 downto 0);
-    ReaddataW: out std_logic_vector(31 downto 0);
-	RegWriteW: out std_logic;
-	MemToRegW: out std_logic;
-	WriteRegW: out std_logic_vector(4 downto 0)
-  );
+    port (
+        clk       : in std_logic;
+        AluoutM   : in std_logic_vector(31 downto 0);
+        ReaddataM : in std_logic_vector(31 downto 0);
+        RegWriteM : in std_logic;
+        MemToRegM : in std_logic;
+        WriteRegM : in std_logic_vector(4 downto 0);
+        AluoutW   : out std_logic_vector(31 downto 0);
+        ReaddataW : out std_logic_vector(31 downto 0);
+        RegWriteW : out std_logic;
+        MemToRegW : out std_logic;
+        WriteRegW : out std_logic_vector(4 downto 0)
+    );
 end;
 
 architecture behavior of pipeline_register_W is
-  type ramtype is array (1 downto 0) of std_logic_vector(31 downto 0);
-  signal mem: ramtype;
-  signal regWrite : std_logic;
-  signal memToReg : std_logic;
-  signal writeReg : std_logic_vector(4 downto 0);
+    type ramtype is array (1 downto 0) of std_logic_vector(31 downto 0);
+    signal mem      : ramtype;
+    signal regWrite : std_logic;
+    signal memToReg : std_logic;
+    signal writeReg : std_logic_vector(4 downto 0);
 begin
-  process(clk) begin
-    if rising_edge(clk) then
-      mem(0) <= AluoutM;   --speichere AluoutM an index 0
-	  mem(1) <= ReaddataM; --speichere ReaddataM an index 0
-	  regWrite <= RegWriteM;
-	  memToReg <= MemToRegM;
-	  writeReg <= WriteRegM;
-    end if;
-  end process;
+    process (clk) begin
+        if rising_edge(clk) then
+            mem(0)   <= AluoutM; --speichere AluoutM an index 0
+            mem(1)   <= ReaddataM; --speichere ReaddataM an index 0
+            regWrite <= RegWriteM;
+            memToReg <= MemToRegM;
+            writeReg <= WriteRegM;
+        end if;
+    end process;
 
-  AluoutW <= mem(0);  
-  ReaddataW <= mem(1);
-  RegWriteW <= regWrite;
-  MemToRegW <= memToReg;
-  WriteRegW <= writeReg;
-  
+    AluoutW   <= mem(0);
+    ReaddataW <= mem(1);
+    RegWriteW <= regWrite;
+    MemToRegW <= memToReg;
+    WriteRegW <= writeReg;
+
 end;
