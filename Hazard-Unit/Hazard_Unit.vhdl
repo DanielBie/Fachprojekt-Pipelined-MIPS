@@ -31,6 +31,13 @@ begin
             ForwardAE      <= "01";
         else ForwardAE <= "00";
         end if;
+		
+		if ((RtE /= "00000") and (RtE = WriteRegM) and (RegWriteM = '1')) then
+            ForwardBE <= "10";
+        elsif ((RtE /= "00000") and (RtE = WriteRegW) and (RegWriteW = '1')) then
+            ForwardBE      <= "01";
+        else ForwardBE <= "00";
+        end if;
     end process;
 
 	--Stalling

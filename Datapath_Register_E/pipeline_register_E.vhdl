@@ -48,30 +48,32 @@ architecture structure of pipeline_register_E is
 begin
     process (clk) begin
         if rising_edge(clk) then
-            mem_1(0) <= RegWriteD;
-            mem_1(1) <= MemToRegD;
-            mem_1(2) <= MemWriteD;
-            mem_1(3) <= BranchD;
-            mem_1(4) <= ALUSrcD;
-            mem_1(5) <= RegDstD;
+			if FlushE = '1' then
+				mem_1(0) <= '0';
+				mem_1(2) <= '0';
+				mem_1(3) <= '0';
+				mem_5(0) <= "00000";
+				mem_5(1) <= "00000";
+				mem_5(2) <= "00000";
+			else
+				mem_1(0) <= RegWriteD;
+				mem_1(1) <= MemToRegD;
+				mem_1(2) <= MemWriteD;
+				mem_1(3) <= BranchD;
+				mem_1(4) <= ALUSrcD;
+				mem_1(5) <= RegDstD;
 
-            mem_3(0)  <= ALUControlD;
-            mem_32(0) <= RD1;
-            mem_32(1) <= RD2;
-            mem_5(0)  <= RtD;
-            mem_5(1)  <= RdD;
-            mem_5(2)  <= RsD;
-            mem_32(2) <= SignExtendD;
-            mem_32(3) <= PCPlus4D;
+				mem_3(0)  <= ALUControlD;
+				mem_32(0) <= RD1;
+				mem_32(1) <= RD2;
+				mem_5(0)  <= RtD;
+				mem_5(1)  <= RdD;
+				mem_5(2)  <= RsD;
+				mem_32(2) <= SignExtendD;
+				mem_32(3) <= PCPlus4D;
+			end if;
         end if;
-        if FlushE = '1' then
-            mem_1(0) <= '0';
-            mem_1(2) <= '0';
-            mem_1(3) <= '0';
-            mem_5(0) <= "00000";
-            mem_5(1) <= "00000";
-            mem_5(2) <= "00000";
-        end if;
+        
     end process;
 
     RegWriteE <= mem_1(0);
