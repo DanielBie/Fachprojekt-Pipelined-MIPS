@@ -10,10 +10,12 @@ entity datapath is
         reset         : in std_logic;
         ForwardAE     : in std_logic_vector(1 downto 0);
         ForwardBE     : in std_logic_vector(1 downto 0);
+		ForwardAD     : in std_logic;
+		ForwardBD     : in std_logic;
         StallF        : in std_logic;
         StallD        : in std_logic;
         FlushE        : in std_logic;
-        MemToRegD     : std_logic;
+        MemToRegD     : in std_logic;
         ALUSrcD       : in std_logic;
         RegDstD       : in std_logic;
         RegWriteD     : in std_logic;
@@ -27,9 +29,12 @@ entity datapath is
         RtE_out       : buffer std_logic_vector(4 downto 0);
         RsD_out       : buffer std_logic_vector(4 downto 0);
         RtD_out       : buffer std_logic_vector(4 downto 0);
+		RegWriteE_out : buffer std_logic;
         RegWriteM_out : buffer std_logic;
         RegWriteW_out : buffer std_logic;
         MemtoRegE_out : buffer std_logic;
+		MemtoRegM_out : buffer std_logic;
+		WriteRegE_out : buffer std_logic_vector(4 downto 0);
         WriteRegM_out : buffer std_logic_vector(4 downto 0);
         WriteRegW_out : buffer std_logic_vector(4 downto 0)
     );
@@ -227,7 +232,7 @@ architecture structure of datapath is
     -- signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD: std_logic;
     signal not_clk, not_StallD, PcSrcD, EqualD                              : std_logic;
     signal RtD, RdD, RsD                                    : std_logic_vector(4 downto 0);
-    signal RD1, RD2, SignImmD, SignImmDsh, PCBranchD, PCPlus4D, instrD, PCJumpD : std_logic_vector(31 downto 0);
+    signal RD1, RD2, SignImmD, SignImmDsh, PCBranchD, PCPlus4D, instrD, PCJumpD, EqualAD, EqualBD : std_logic_vector(31 downto 0);
     --E
     signal ZeroE, RegWriteE, MemWriteE, MemToRegE, BranchE, ALUSrcE, RegDstE                                      : std_logic;
     signal ALUControlE                                                                                            : std_logic_vector(2 downto 0);
@@ -261,7 +266,13 @@ architecture structure of datapath is
     pcreg : syncresff port map(clk => clk, reset => reset, StallF => not_StallF, d => pc, q => pcf);
 
 	--Equal
-	equalt : equal generic map(32) port map(RD1D => RD1, RD2D => RD2, EqualD => EqualD);
+	equalt : equal generic map(32) port map(RD1D => EqualAD, RD2D => EqualBD, EqualD => EqualD);
+	
+	--Branch ForwardAD
+	branchMuxA : mux2 generic map(32) port map(RD1, ALUOutM, ForwardAD, EqualAD);
+	
+	--Branch ForwardBD
+	branchMuxB : mux2 generic map(32) port map(RD2, ALUOutM, ForwardBD, EqualBD);
 
     -- adder for pc+4
     pcadd1 : adder port map(pcf, x"00000004", PCPlus4F);
@@ -372,11 +383,14 @@ architecture structure of datapath is
         MemToRegW => MemToRegW,
         WriteRegW => WriteRegW);
 		
+	RegWriteE_out <= RegWriteE;
 	RegWriteM_out <= RegWriteM;
 	RegWriteW_out <= RegWriteW;
+	WriteRegE_out <= WriteRegE;
 	WriteRegM_out <= WriteRegM;
 	WriteRegW_out <= WriteRegW;
 	MemtoRegE_out <= MemtoRegE;
+	MemToRegM_out <= MemToRegM;
 	RtE_out       <= RtE;
 	RsE_out       <= RsE;
 	RtD_out       <= RtD;
