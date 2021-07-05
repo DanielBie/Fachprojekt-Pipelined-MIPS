@@ -9,12 +9,11 @@ entity pipeline_register_E is
         RsD         : in std_logic_vector(4 downto 0);
         RtD         : in std_logic_vector(4 downto 0);
         RdD         : in std_logic_vector(4 downto 0);
-        SignExtendD : in std_logic_vector(31 downto 0);
+        SignImmD : in std_logic_vector(31 downto 0);
         PCPlus4D    : in std_logic_vector(31 downto 0);
         RegWriteD   : in std_logic;
         MemToRegD   : in std_logic;
         MemWriteD   : in std_logic;
-        BranchD     : in std_logic;
         FlushE      : in std_logic;
         ALUControlD : in std_logic_vector(2 downto 0);
         ALUSrcD     : in std_logic;
@@ -29,7 +28,6 @@ entity pipeline_register_E is
         RegWriteE   : out std_logic;
         MemToRegE   : out std_logic;
         MemWriteE   : out std_logic;
-        BranchE     : out std_logic;
         ALUControlE : out std_logic_vector(2 downto 0);
         ALUSrcE     : out std_logic;
         RegDstE     : out std_logic
@@ -59,7 +57,6 @@ begin
 				mem_1(0) <= RegWriteD;
 				mem_1(1) <= MemToRegD;
 				mem_1(2) <= MemWriteD;
-				mem_1(3) <= BranchD;
 				mem_1(4) <= ALUSrcD;
 				mem_1(5) <= RegDstD;
 
@@ -69,7 +66,7 @@ begin
 				mem_5(0)  <= RtD;
 				mem_5(1)  <= RdD;
 				mem_5(2)  <= RsD;
-				mem_32(2) <= SignExtendD;
+				mem_32(2) <= SignImmD;
 				mem_32(3) <= PCPlus4D;
 			end if;
         end if;
@@ -79,7 +76,6 @@ begin
     RegWriteE <= mem_1(0);
     MemToRegE <= mem_1(1);
     MemWriteE <= mem_1(2);
-    BranchE   <= mem_1(3);
     ALUSrcE   <= mem_1(4);
     RegDstE   <= mem_1(5);
 

@@ -10,6 +10,11 @@ ghdl -a alu.vhdl
 ghdl -e alu
 ghdl -r alu --vcd=testbench.vcd
 
+ghdl -s equal.vhdl
+ghdl -a equal.vhdl
+ghdl -e equal
+ghdl -r equal --vcd=testbench.vcd
+
 ghdl -s mux2.vhdl
 ghdl -a mux2.vhdl
 ghdl -e mux2
