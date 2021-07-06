@@ -1,0 +1,13 @@
+addi $1 $0 2
+addi $2 $0 6
+addi $3 $0 9
+beq $1 $2 128
+beq $3 $3 2
+idle
+idle
+add $1 $2 $3
+idle
+idle
+idle
+idle
+add $1 $2 $3

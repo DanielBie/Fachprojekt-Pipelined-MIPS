@@ -42,6 +42,23 @@ void assembleFile(std::string input, std::string output){
 
     std::string line;
     if(in.is_open()){
+
+        out << "library ieee;"
+                "use ieee.std_logic_1164.all;\n"
+                "use ieee.numeric_std.all;\n"
+                "\n"
+                "entity instr_mem is\n"
+                "\tport (\n"
+                "\t\tpc: in std_logic_vector(31 downto 0);\n"
+                "\t\tinstr: out std_logic_vector(31 downto 0)\n"
+                "\t);\n"
+                "end;\n"
+                "\n"
+                "architecture behavior of instr_mem is\n"
+                "\ttype ramtype is array (255 downto 0) of std_logic_vector(31 downto 0);\n"
+                "\tsignal mem: ramtype;\n"
+                "begin\n\n";
+
         while (std::getline(in, line)){
             std::stringstream ss(line);
             std::string entry;
@@ -58,6 +75,9 @@ void assembleFile(std::string input, std::string output){
                 std::string off;
                 std::string reg;
                 bool first = false;
+                if(entry.compare("#") == 0){
+                    --num;
+                }
                 switch (num){
                     case 0:
                         if(entry.compare("lw") == 0){
@@ -161,40 +181,52 @@ void assembleFile(std::string input, std::string output){
                 num++;
             }
 
+            if(line[0] == '#'){
+                out << "--";
+            }
             switch (inst){
-            case rtype:
-                out << "mem(" << memloc++ << ") <= \"" << rtypeInstr(r1, r2, r3, r) << "\"; --" << line << std::endl;
-                break;
+                case rtype:
+                    out << "\tmem(" << memloc << ")\t<= \"" << rtypeInstr(r1, r2, r3, r) << "\";\t--" << line << std::endl;
+                    break;
 
-            case lw:
-                out << "mem(" << memloc++ << ") <= \"" << lwInstr(r1, offset, r2) << "\"; --" << line << std::endl;
-                break;
+                case lw:
+                    out << "\tmem(" << memloc << ")\t<= \"" << lwInstr(r1, offset, r2) << "\";\t--" << line << std::endl;
+                    break;
 
-            case sw:
-                out << "mem(" << memloc++ << ") <= \"" << swInstr(r1, offset, r2) << "\"; --" << line << std::endl;
-                break;
+                case sw:
+                    out << "\tmem(" << memloc << ")\t<= \"" << swInstr(r1, offset, r2) << "\";\t--" << line << std::endl;
+                    break;
 
-            case beq:
-                out << "mem(" << memloc++ << ") <= \"" << beqInstr(r1, r2, offset) << "\"; --" << line << std::endl;
-                break;
+                case beq:
+                    out << "\tmem(" << memloc << ")\t<= \"" << beqInstr(r1, r2, offset) << "\";\t--" << line << std::endl;
+                    break;
 
-            case addi:
-                out << "mem(" << memloc++ << ") <= \"" << addiInstr(r1, r2, offset) << "\"; --" << line << std::endl;
-                break;
+                case addi:
+                    out << "\tmem(" << memloc << ")\t<= \"" << addiInstr(r1, r2, offset) << "\";\t--" << line << std::endl;
+                    break;
 
-            case j:
-                out << "mem(" << memloc++ << ") <= \"" << jInstr(offset) << "\"; --" << line << std::endl;
-                break;
+                case j:
+                    out << "\tmem(" << memloc << ")\t<= \"" << jInstr(offset) << "\";\t--" << line << std::endl;
+                    break;
 
-            case idle:
-                out << "mem(" << memloc++ << ") <= \"00000000000000000000000000100000\"; --" << line << std::endl;
-                break;
-            
-            default:
-                break;
+                case idle:
+                    out << "\tmem(" << memloc << ")\t<= \"00000000000000000000000000100000\";\t--" << line << std::endl;
+                    break;
+                
+                default:
+                    break;
+            }
+            if(line[0] != '#'){
+                ++memloc;
             }
         }
         
+        out <<  "\n\tprocess(pc) begin\n"
+                "\t\tinstr <= mem(to_integer(unsigned(pc(31 downto 2))));\n"
+                "\n"
+                "\tend process;\n"
+                "end;\n";
+
     }
 
     in.close();
