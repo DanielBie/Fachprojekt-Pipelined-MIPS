@@ -359,7 +359,6 @@ void handleBeq(std::string line, int lineNum){
             case 3:
                 if(entry[0] == '.'){
                     if(labels.find(entry) != labels.end()){
-                        std::cout << labels[entry];
                         offset = labels[entry] - lineNum;
                     } else {
                         std::cout << "Error in line " << lineNum << "! Label does not exist!" << std::endl;
