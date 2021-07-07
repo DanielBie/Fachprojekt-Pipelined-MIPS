@@ -226,7 +226,7 @@ architecture structure of datapath is
     end component;
 
     --F
-    signal not_StallF                           : std_logic;
+    signal not_StallF, clearD                           : std_logic;
     signal pc, pcf, PCPlus4F, instrF, PCBranchF : std_logic_vector(31 downto 0);
     --D
     -- signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD: std_logic;
@@ -320,7 +320,8 @@ architecture structure of datapath is
     --Register:
     --Decode
     not_StallD <= not StallD;
-    decode : pipeline_register_D port map(clk => clk, StallD => not_StallD, PCSrcD => PCSrcD, instr => instrF, PCPlus4 => PCPlus4F, instrD => instrD, PCPlus4D => PCPlus4D);
+    clearD <= PCSrcD or jump;
+    decode : pipeline_register_D port map(clk => clk, StallD => not_StallD, PCSrcD => clearD, instr => instrF, PCPlus4 => PCPlus4F, instrD => instrD, PCPlus4D => PCPlus4D);
 
     --Execute
     execute : pipeline_register_E port map(

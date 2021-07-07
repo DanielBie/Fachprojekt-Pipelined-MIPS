@@ -5,3 +5,4 @@ Test/compile.sh
 Test/compileAll.sh
 .vscode/settings.json
 Assembler/Assembler.out
+Assembler/tbGenerator.out

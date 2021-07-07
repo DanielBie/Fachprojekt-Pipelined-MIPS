@@ -96,11 +96,21 @@ void assembleFile(std::string input, std::string output){
 
             bool comment = false;
 
-            if(line[0] == '#'){
+            if(std::regex_match(line, std::regex("(\\s)*#.*"))){
                 out << "--";
-                line = line.substr(2, line.size());
+                int j=0;
+                while (line[j]!='#'){
+                    ++j;
+                }
+                
+                line = line.substr(j+1, line.size());
+                std::cout << line << std::endl;
+
                 comment = true;
-            } else if(line[0] != '.' && std::regex_match(line, std::regex("(\\s)*.*"))){
+            } else if(line[0] == '.'){
+                out << "--\t" << line << std::endl;
+            }
+            if(line[0] != '.' && std::regex_match(line, std::regex("(\\s)*.+"))){
                 ++lineNum;
                 int i=0;
                 while (line[i] == ' '){

@@ -26,7 +26,7 @@ begin
             when "000000" => controls <= "110000010"; -- rtype
             when "100011" => controls <= "101001000"; -- lw
             when "101011" => controls <= "001010000"; -- sw
-            when "000100" => controls <= "000100001"; -- beq
+            when "000100" => controls <= "000100000"; -- beq
             when "001000" => controls <= "101000000"; -- addi
             when "000010" => controls <= "000000100"; -- j
             when others   => controls   <= "---------"; -- illegal

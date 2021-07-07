@@ -30,6 +30,9 @@ begin
 		RD1D <= x"00001000";
         RD2D <= x"00000000";
         wait for 10 ns;
+        RD1D <= x"00000002";
+        RD2D <= x"00000006";
+        wait for 10 ns;
 
         wait;
     end process;
