@@ -54,16 +54,16 @@ void assembleFile(std::string input, std::string output){
     out.open(output);
 
     memloc = 0;
-    int lineNum = 0;
+    int lineNum = 1;
     std::string line;
 
 
     if(in1.is_open()){
         while (std::getline(in1, line)){
-            ++lineNum;
             if(line[0] == '.'){
                 labels[line] = lineNum;
-
+            } else {
+                ++lineNum;
             }
         }
         
@@ -94,8 +94,6 @@ void assembleFile(std::string input, std::string output){
 
         while (std::getline(in2, line)){
 
-            ++lineNum;
-
             bool comment = false;
 
             if(line[0] == '#'){
@@ -103,6 +101,7 @@ void assembleFile(std::string input, std::string output){
                 line = line.substr(2, line.size());
                 comment = true;
             } else if(line[0] != '.' && std::regex_match(line, std::regex("(\\s)*.*"))){
+                ++lineNum;
                 int i=0;
                 while (line[i] == ' '){
                     ++i;
@@ -127,7 +126,7 @@ void assembleFile(std::string input, std::string output){
 
 
             
-            if(!comment){
+            if(!comment && line[0]!= '.'){
                 ++memloc;
             }
         }
@@ -360,6 +359,7 @@ void handleBeq(std::string line, int lineNum){
             case 3:
                 if(entry[0] == '.'){
                     if(labels.find(entry) != labels.end()){
+                        std::cout << labels[entry];
                         offset = labels[entry] - lineNum;
                     } else {
                         std::cout << "Error in line " << lineNum << "! Label does not exist!" << std::endl;
