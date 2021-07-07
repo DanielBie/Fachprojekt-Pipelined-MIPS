@@ -3,12 +3,26 @@
 #include <bitset>
 #include <string>
 #include <sstream>
+#include<regex>
+#include<unordered_map>
 
 
 enum Instr {rtype, lw, sw, beq, addi, j, idle};
 enum RType {rAdd, rSub, rAnd, rOr, rSlt};
 
+std::unordered_map<std::string, int> labels;
+
+std::ofstream out;
+int memloc;
+
 void assembleFile(std::string input, std::string output);
+void handleRtype(std::string line, int lineNum);
+void handleLw(std::string line, int lineNum);
+void handleSw(std::string line, int lineNum);
+void handleBeq(std::string line, int lineNum);
+void handleAddi(std::string line, int lineNum);
+void handleJ(std::string line, int lineNum);
+void handleIdle(std::string line, int lineNum);
 std::string rtypeInstr(int r1, int r2, int r3, RType type);
 std::string lwInstr(int r1, int offset, int r2);
 std::string swInstr(int r1, int offset, int r2);
@@ -34,14 +48,33 @@ int main(int argc, char **argv){
 }
 
 void assembleFile(std::string input, std::string output){
-    std::ifstream in(input);
-    std::ofstream out(output);
+    std::ifstream in1(input);
+    std::ifstream in2(input);
 
-    int memloc = 0;
+    out.open(output);
 
-
+    memloc = 0;
+    int lineNum = 0;
     std::string line;
-    if(in.is_open()){
+
+
+    if(in1.is_open()){
+        while (std::getline(in1, line)){
+            ++lineNum;
+            if(line[0] == '.'){
+                labels[line] = lineNum;
+
+            }
+        }
+        
+    }
+
+    in1.close();
+
+
+    lineNum = 0;
+
+    if(in2.is_open()){
 
         out << "library ieee;"
                 "use ieee.std_logic_1164.all;\n"
@@ -59,164 +92,42 @@ void assembleFile(std::string input, std::string output){
                 "\tsignal mem: ramtype;\n"
                 "begin\n\n";
 
-        while (std::getline(in, line)){
-            std::stringstream ss(line);
-            std::string entry;
-            int num = 0;
-            Instr inst;
-            RType r;
-            int r1;
-            int r2;
-            int r3;
-            int offset;
+        while (std::getline(in2, line)){
 
+            ++lineNum;
 
-            while( std::getline(ss, entry,' ') ) {
-                std::string off;
-                std::string reg;
-                bool first = false;
-                if(entry.compare("#") == 0){
-                    --num;
-                }
-                switch (num){
-                    case 0:
-                        if(entry.compare("lw") == 0){
-                            inst = lw;
-                        } else if(entry.compare("sw") == 0){
-                            inst = sw;
-                        } else if(entry.compare("beq") == 0){
-                            inst = beq;
-                        } else if(entry.compare("addi") == 0){
-                            inst = addi;
-                        } else if(entry.compare("j") == 0){
-                            inst = j;
-                        } else if(entry.compare("idle") == 0){
-                            inst = idle;
-                        } else {
-                            inst = rtype;
-                            if(entry.compare("add") == 0){
-                                r = rAdd;
-                            } else if(entry.compare("sub") == 0){
-                                r = rSub;
-                            } else if(entry.compare("and") == 0){
-                                r = rAnd;
-                            } else if(entry.compare("or") == 0){
-                                r = rOr;
-                            } else if(entry.compare("slt") == 0){
-                                r = rSlt;
-                            }
-                        }
-                        break;
-                    
-                    case 1:
-                        switch (inst){
-                            case rtype:
-                            case lw:
-                            case sw:
-                            case beq:
-                            case addi:
-                                r1 = std::stoi(entry.substr(1, entry.size()));
-                                break;
-
-                            case j:
-                                offset = std::stoi(entry);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case 2:
-                        switch (inst){
-                            case rtype:
-                            case beq:
-                            case addi:
-                                r2 = std::stoi(entry.substr(1, entry.size()));
-                                break;
-
-                            case lw:
-                            case sw:
-                                first = true;
-                                off = "";
-                                reg="";
-                                for(int i=0; i<entry.size(); ++i){
-                                    if(first && entry[i] != '('){
-                                        off += entry[i];
-                                    } else if (entry[i] == '('){
-                                        first = false;
-                                    } else if(entry[i] != ')' && entry[i] != '$'){
-                                        reg += entry[i];
-                                    }
-                                }
-                                offset = std::stoi(off);
-                                r2 = std::stoi(reg);
-
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case 3:
-                        switch (inst){
-                            case rtype:
-                                r3 = std::stoi(entry.substr(1, entry.size()));
-                                break;
-
-                            case beq:
-                            case addi:
-                                offset = std::stoi(entry);
-
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    
-                    default:
-                        break;
-                }
-                
-                num++;
-            }
+            bool comment = false;
 
             if(line[0] == '#'){
                 out << "--";
+                line = line.substr(2, line.size());
+                comment = true;
+            } else if(line[0] != '.' && std::regex_match(line, std::regex("(\\s)*.*"))){
+                int i=0;
+                while (line[i] == ' '){
+                    ++i;
+                }
+                line = line.substr(i, line.size());
+                if(line.rfind("lw", 0) == 0){
+                    handleLw(line, lineNum);
+                } else if(line.rfind("sw", 0) == 0){
+                    handleSw(line, lineNum);
+                } else if(line.rfind("beq", 0) == 0){
+                    handleBeq(line, lineNum);
+                } else if(line.rfind("addi", 0) == 0){
+                    handleAddi(line, lineNum);
+                } else if(line.rfind("j", 0) == 0){
+                    handleJ(line, lineNum);
+                } else if(line.rfind("idle", 0) == 0){
+                    handleIdle(line, lineNum);
+                } else {
+                    handleRtype(line, lineNum);
+                }
             }
-            switch (inst){
-                case rtype:
-                    out << "\tmem(" << memloc << ")\t<= \"" << rtypeInstr(r1, r2, r3, r) << "\";\t--" << line << std::endl;
-                    break;
 
-                case lw:
-                    out << "\tmem(" << memloc << ")\t<= \"" << lwInstr(r1, offset, r2) << "\";\t--" << line << std::endl;
-                    break;
 
-                case sw:
-                    out << "\tmem(" << memloc << ")\t<= \"" << swInstr(r1, offset, r2) << "\";\t--" << line << std::endl;
-                    break;
-
-                case beq:
-                    out << "\tmem(" << memloc << ")\t<= \"" << beqInstr(r1, r2, offset) << "\";\t--" << line << std::endl;
-                    break;
-
-                case addi:
-                    out << "\tmem(" << memloc << ")\t<= \"" << addiInstr(r1, r2, offset) << "\";\t--" << line << std::endl;
-                    break;
-
-                case j:
-                    out << "\tmem(" << memloc << ")\t<= \"" << jInstr(offset) << "\";\t--" << line << std::endl;
-                    break;
-
-                case idle:
-                    out << "\tmem(" << memloc << ")\t<= \"00000000000000000000000000100000\";\t--" << line << std::endl;
-                    break;
-                
-                default:
-                    break;
-            }
-            if(line[0] != '#'){
+            
+            if(!comment){
                 ++memloc;
             }
         }
@@ -227,11 +138,356 @@ void assembleFile(std::string input, std::string output){
                 "\tend process;\n"
                 "end;\n";
 
+
     }
 
-    in.close();
+    in2.close();
 
     out.close();
+}
+
+void handleRtype(std::string line, int lineNum){
+    RType r;
+    int r1, r2, r3;
+    std::stringstream ss(line);
+    std::string entry;
+    for(int i=0; i<4; ++i){
+        if(std::getline(ss, entry, ' ')){
+
+            switch (i){
+            case 0:
+                if(entry.compare("add") == 0){
+                    r = rAdd;
+                } else if(entry.compare("sub") == 0){
+                    r = rSub;
+                } else if(entry.compare("and") == 0){
+                    r = rAnd;
+                } else if(entry.compare("or") == 0){
+                    r = rOr;
+                } else if(entry.compare("slt") == 0){
+                    r = rSlt;
+                }
+                break;
+
+            case 1:
+                if(entry[0] == '$'){
+                    r1 = std::stoi(entry.substr(1, entry.size()));
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Register expected." << std::endl;
+                    exit(1);
+                }
+                break;
+
+            case 2:
+                if(entry[0] == '$'){
+                    r2 = std::stoi(entry.substr(1, entry.size()));
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Register expected." << std::endl;
+                    exit(1);
+                }
+                break;
+
+            case 3:
+                if(entry[0] == '$'){
+                    r3 = std::stoi(entry.substr(1, entry.size()));
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Register expected." << std::endl;
+                    exit(1);
+                }
+                break;
+            
+            default:
+                break;
+            }
+
+        } else {
+            std::cout << "Error in line " << lineNum << "! Too few operands." << std::endl;
+            exit(1);
+        }
+    }
+
+    out << "\tmem(" << memloc << ")\t<= \"" << rtypeInstr(r1, r2, r3, r) << "\";\t--" << line << std::endl;
+}
+
+void handleLw(std::string line, int lineNum){
+    int r1, r2, offset;
+    std::string off, reg;
+    int j;
+    std::stringstream ss(line);
+    std::string entry;
+    if(!std::getline(ss, entry, ' ') || !entry.compare("lw") == 0){
+        std::cout << "Error in line " << lineNum << "!" << std::endl;
+        exit(1);
+    }
+    for(int i=1; i<3; ++i){
+        if(std::getline(ss, entry, ' ')){
+
+            switch (i){
+            case 1:
+                if(entry[0] == '$'){
+                    r1 = std::stoi(entry.substr(1, entry.size()));
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Register expected." << std::endl;
+                    exit(1);
+                }
+                break;
+
+            case 2:
+                if(std::regex_match(entry, std::regex("[0-9]+\\(\\$[0-9]+\\)"))){
+
+                    while (entry[j] != '('){
+                        off+=entry[j];
+                        ++j;
+                    }
+                    j+=2;
+                    while (entry[j] != ')'){
+                        reg+=entry[j];
+                        ++j;
+                    }
+                    offset=std::stoi(off);
+                    r2=std::stoi(reg);
+
+
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Syntax incorrect." << std::endl;
+                    exit(1);
+                }
+                
+                break;
+            
+            default:
+                break;
+            }
+
+        } else {
+            std::cout << "Error in line " << lineNum << "! Too few operands." << std::endl;
+            exit(1);
+        }
+    }
+
+    out << "\tmem(" << memloc << ")\t<= \"" << lwInstr(r1, offset, r2) << "\";\t--" << line << std::endl;
+}
+
+void handleSw(std::string line, int lineNum){
+    int r1, r2, offset;
+    std::string off, reg;
+    int j;
+    std::stringstream ss(line);
+    std::string entry;
+    if(!std::getline(ss, entry, ' ') || !entry.compare("sw") == 0){
+        std::cout << "Error in line " << lineNum << "!" << std::endl;
+        exit(1);
+    }
+    for(int i=1; i<3; ++i){
+        if(std::getline(ss, entry, ' ')){
+
+            switch (i){
+            case 1:
+                if(entry[0] == '$'){
+                    r1 = std::stoi(entry.substr(1, entry.size()));
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Register expected." << std::endl;
+                    exit(1);
+                }
+                break;
+
+            case 2:
+                if(std::regex_match(entry, std::regex("[0-9]+\\(\\$[0-9]+\\)"))){
+
+                    while (entry[j] != '('){
+                        off+=entry[j];
+                        ++j;
+                    }
+                    j+=2;
+                    while (entry[j] != ')'){
+                        reg+=entry[j];
+                        ++j;
+                    }
+                    offset=std::stoi(off);
+                    r2=std::stoi(reg);
+
+
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Syntax incorrect." << std::endl;
+                    exit(1);
+                }
+                
+                break;
+            
+            default:
+                break;
+            }
+
+        } else {
+            std::cout << "Error in line " << lineNum << "! Too few operands." << std::endl;
+            exit(1);
+        }
+    }
+
+    out << "\tmem(" << memloc << ")\t<= \"" << swInstr(r1, offset, r2) << "\";\t--" << line << std::endl;
+}
+
+void handleBeq(std::string line, int lineNum){
+    int r1, r2, offset;
+    std::stringstream ss(line);
+    std::string entry;
+    if(!std::getline(ss, entry, ' ') || !entry.compare("beq") == 0){
+        std::cout << "Error in line " << lineNum << "!" << std::endl;
+        exit(1);
+    }
+    for(int i=1; i<4; ++i){
+        if(std::getline(ss, entry, ' ')){
+
+            switch (i){
+            case 1:
+                if(entry[0] == '$'){
+                    r1 = std::stoi(entry.substr(1, entry.size()));
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Register expected." << std::endl;
+                    exit(1);
+                }
+                break;
+
+            case 2:
+                if(entry[0] == '$'){
+                    r2 = std::stoi(entry.substr(1, entry.size()));
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Register expected." << std::endl;
+                    exit(1);
+                }
+                break;
+
+            case 3:
+                if(entry[0] == '.'){
+                    if(labels.find(entry) != labels.end()){
+                        offset = labels[entry] - lineNum;
+                    } else {
+                        std::cout << "Error in line " << lineNum << "! Label does not exist!" << std::endl;
+                        exit(1);
+                    }
+                } else {
+                    try{
+                        offset = std::stoi(entry);
+                    }
+                    catch(...){
+                        std::cout << "Error in line " << lineNum << "! Unexpected offset." << std::endl;
+                        exit(1);
+                    }
+                }
+                break;
+            
+            default:
+                break;
+            }
+
+        } else {
+            std::cout << "Error in line " << lineNum << "! Too few operands." << std::endl;
+            exit(1);
+        }
+    }
+
+    out << "\tmem(" << memloc << ")\t<= \"" << beqInstr(r1, r2, offset) << "\";\t--" << line << std::endl;
+}
+
+void handleAddi(std::string line, int lineNum){
+    int r1, r2, offset;
+    std::stringstream ss(line);
+    std::string entry;
+    if(!std::getline(ss, entry, ' ') || !entry.compare("addi") == 0){
+        std::cout << "Error in line " << lineNum << "!" << std::endl;
+        exit(1);
+    }
+    for(int i=1; i<4; ++i){
+        if(std::getline(ss, entry, ' ')){
+
+            switch (i){
+            case 1:
+                if(entry[0] == '$'){
+                    r1 = std::stoi(entry.substr(1, entry.size()));
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Register expected." << std::endl;
+                    exit(1);
+                }
+                break;
+
+            case 2:
+                if(entry[0] == '$'){
+                    r2 = std::stoi(entry.substr(1, entry.size()));
+                } else {
+                    std::cout << "Error in line " << lineNum << "! Register expected." << std::endl;
+                    exit(1);
+                }
+                break;
+
+            case 3:
+                try{
+                    offset = std::stoi(entry);
+                }
+                catch(...){
+                    std::cout << "Error in line " << lineNum << "! Unexpected offset." << std::endl;
+                }
+                
+                break;
+            
+            default:
+                break;
+            }
+
+        } else {
+            std::cout << "Error in line " << lineNum << "! Too few operands." << std::endl;
+            exit(1);
+        }
+    }
+
+    out << "\tmem(" << memloc << ")\t<= \"" << addiInstr(r1, r2, offset) << "\";\t--" << line << std::endl;
+}
+
+void handleJ(std::string line, int lineNum){
+    int address;
+    std::stringstream ss(line);
+    std::string entry;
+    if(!std::getline(ss, entry, ' ') || !entry.compare("j") == 0){
+        std::cout << "Error in line " << lineNum << "!" << std::endl;
+        exit(1);
+    }
+    for(int i=1; i<2; ++i){
+        if(std::getline(ss, entry, ' ')){
+
+            switch (i){
+            case 1:
+                if(entry[0] == '.'){
+                    if(labels.find(entry) != labels.end()){
+                        address = labels[entry] - 1;
+                    } else {
+                        std::cout << "Error in line " << lineNum << "! Label does not exist!" << std::endl;
+                        exit(1);
+                    }
+                } else {
+                    try{
+                        address = std::stoi(entry);
+                    }
+                    catch(...){
+                        std::cout << "Error in line " << lineNum << "! Unexpected offset." << std::endl;
+                        exit(1);
+                    }
+                }
+                break;
+            
+            default:
+                break;
+            }
+
+        } else {
+            std::cout << "Error in line " << lineNum << "! Too few operands." << std::endl;
+            exit(1);
+        }
+    }
+
+    out << "\tmem(" << memloc << ")\t<= \"" << jInstr(address) << "\";\t--" << line << std::endl;
+}
+
+void handleIdle(std::string line, int lineNum){
+    out << "\tmem(" << memloc << ")\t<= \"00000000000000000000000000100000\";\t--" << line << std::endl;
 }
 
 std::string rtypeInstr(int r1, int r2, int r3, RType type){

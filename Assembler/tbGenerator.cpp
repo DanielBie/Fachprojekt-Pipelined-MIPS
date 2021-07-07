@@ -14,8 +14,6 @@ int main(int argc, char **argv){
         num = std::stoi(argv[2]);
     }
 
-    std::cout << "called -----------------------" << std::endl;
-    
     std::ofstream out(outPath);
 
     out <<  "library ieee;\n"
