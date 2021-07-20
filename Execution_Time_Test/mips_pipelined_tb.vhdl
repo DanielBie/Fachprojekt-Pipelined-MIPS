@@ -10,7 +10,7 @@ architecture structure of mips_pipelined_tb is
 		port (
 			clk    : in std_logic;
 			reset  : in std_logic;
-			instrD : out std_logic_vector(31 downto 0)
+			instrD_out : out std_logic_vector(31 downto 0)
 		);
 	end component;
 
@@ -19,7 +19,7 @@ architecture structure of mips_pipelined_tb is
 	signal count : integer;
 
 begin
-	mips : mips_pipelined port map(clk => clk, reset => reset, instrD => instr);
+	mips : mips_pipelined port map(clk => clk, reset => reset, instrD_out => instr);
 
 	process begin
 	
@@ -33,7 +33,7 @@ begin
 		wait for 10 ns;
 
 	-- do cylces until end instruction
-	while instr /= x"11111111" loop
+	while instr /= x"FFFFFFFF" loop
 		clk <= '1';
 		wait for 10 ns;
 		clk <= '0';

@@ -24,7 +24,7 @@ begin
             when "100100" => AluControlE <= "000"; -- and
             when "100101" => AluControlE <= "001"; -- or
             when "101010" => AluControlE <= "111"; -- slt
-            when others   => AluControlE   <= "---"; -- wrong entry in funct
+            when others   => AluControlE <= "---"; -- wrong entry in funct
         end case;
     end case;
 end process;

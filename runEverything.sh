@@ -1,10 +1,9 @@
-num=0
 
 for d in *;
 do
     if [ -d "${d}" ];
     then
-        if [ $d != "Test" -a $d != "Assembler" -a $d != "Documentation" ]
+        if [ $d != "Test" -a $d != "Assembler" -a $d != "Documentation" -a $d != "Execution_Time_Test" ]
         then
             cd $d
             for filename in *.vhdl;
@@ -20,14 +19,9 @@ do
 done
 
 
-cp -R mips-pipelined/mips_pipelined_tb.vhdl Test/
+cp -R Execution_Time_Test/mips_pipelined_tb.vhdl Test/
 
 cd Assembler
-
-num=$(wc -l "../$1" | awk '{ print $1 }')
-num="$((num*60))"
-g++ tbGenerator.cpp -o tbGenerator.out
-./tbGenerator.out ../Test/mips_pipelined_tb.vhdl $num
 
 g++ Assembler.cpp -o Assembler.out
 ./Assembler.out "../$1" ../Test/instr_mem.vhdl

@@ -8,17 +8,22 @@ architecture structure of mips_pipelined_tb is
 
 	component mips_pipelined is
 		port (
-			clk   : in std_logic;
-			reset : in std_logic
+			clk    : in std_logic;
+			reset  : in std_logic;
+			instrD_out : out std_logic_vector(31 downto 0)
 		);
 	end component;
 
 	signal clk, reset : std_logic;
+	signal instr : std_logic_vector(31 downto 0);
+	signal count : integer;
 
 begin
-	mips : mips_pipelined port map(clk => clk, reset => reset);
+	mips : mips_pipelined port map(clk => clk, reset => reset, instrD_out => instr);
 
 	process begin
+	
+		count <= 0;
 		-- reset
 		clk   <= '0';
 		reset <= '1';
@@ -27,14 +32,17 @@ begin
 		reset <= '0';
 		wait for 10 ns;
 
-	-- do cycles
-	for i in 1 to 600 loop
+	-- do cylces until end instruction
+	while instr /= x"FFFFFFFF" loop
 		clk <= '1';
 		wait for 10 ns;
 		clk <= '0';
 		wait for 10 ns;
-		end loop;
-
+		count <= count + 1;
+	end loop;
+	
+	assert false report "Cycles used for completion: " & integer'image(count);
+	
 		-- last 4 cycles of last instruction
 		clk <= '1';
 		wait for 10 ns;

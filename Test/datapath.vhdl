@@ -37,7 +37,7 @@ entity datapath is
 		WriteRegE_out : buffer std_logic_vector(4 downto 0);
         WriteRegM_out : buffer std_logic_vector(4 downto 0);
         WriteRegW_out : buffer std_logic_vector(4 downto 0);
-        instrD_out    : buffer std_logic_vector(31 downto 0)
+		instrD_out    : buffer std_logic_vector(31 downto 0)
     );
 end;
 
@@ -138,7 +138,7 @@ architecture structure of datapath is
         port (
             clk      : in std_logic;
 			StallD   : in std_logic;
-			PCSrcD   : in std_logic;
+			Clear    : in std_logic;
 			instr    : in std_logic_vector(31 downto 0);
 			PCPlus4  : in std_logic_vector(31 downto 0);
 			instrD   : out std_logic_vector(31 downto 0);
@@ -207,7 +207,7 @@ architecture structure of datapath is
             MemToRegM : in std_logic;
             WriteRegM : in std_logic_vector(4 downto 0);
             AluoutW   : out std_logic_vector(31 downto 0);
-            ReaddataW : out std_logic_vector(31 downto 0);
+            ReadDataW : out std_logic_vector(31 downto 0);
             RegWriteW : out std_logic;
             MemToRegW : out std_logic;
             WriteRegW : out std_logic_vector(4 downto 0)
@@ -228,25 +228,25 @@ architecture structure of datapath is
 
     --F
     signal not_StallF, clearD                           : std_logic;
-    signal pc, pcf, PCPlus4F, instrF, PCBranchF : std_logic_vector(31 downto 0);
+    signal pc, pcf, PCPlus4F, instrF, PCBranchF 		: std_logic_vector(31 downto 0);
     --D
     -- signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD: std_logic;
-    signal not_clk, not_StallD, PcSrcD, EqualD                              : std_logic;
-    signal RtD, RdD, RsD                                    : std_logic_vector(4 downto 0);
+    signal not_clk, not_StallD, PcSrcD, EqualD                             						  : std_logic;
+    signal RtD, RdD, RsD                                    									  : std_logic_vector(4 downto 0);
     signal RD1, RD2, SignImmD, SignImmDsh, PCBranchD, PCPlus4D, instrD, PCJumpD, EqualAD, EqualBD : std_logic_vector(31 downto 0);
     --E
-    signal ZeroE, RegWriteE, MemWriteE, MemToRegE, BranchE, ALUSrcE, RegDstE                                      : std_logic;
+    signal ZeroE, RegWriteE, MemWriteE, MemToRegE, ALUSrcE, RegDstE                                      		  : std_logic;
     signal ALUControlE                                                                                            : std_logic_vector(2 downto 0);
     signal WriteRegE, RdE, RtE, RsE                                                                               : std_logic_vector(4 downto 0);
-    signal RD1E, RD2E, SrcAE, SrcBE, WriteDataE, SignImmE, PCPlus4E, SignImmEsh, ALUOutE, WriteBranchE, PCBranchE : std_logic_vector(31 downto 0);
+    signal RD1E, RD2E, SrcAE, SrcBE, WriteDataE, SignImmE, PCPlus4E, ALUOutE									  : std_logic_vector(31 downto 0);
     --M
-    signal ZeroM, MemToRegM, MemWriteM, BranchM, RegWriteM : std_logic;
-    signal WriteRegM                                               : std_logic_vector(4 downto 0);
-    signal ALUOutM, WriteDataM, WriteBranchM, ReadDataM : std_logic_vector(31 downto 0);
+    signal ZeroM, MemToRegM, MemWriteM, RegWriteM 		: std_logic;
+    signal WriteRegM                                    : std_logic_vector(4 downto 0);
+    signal ALUOutM, WriteDataM, ReadDataM 				: std_logic_vector(31 downto 0);
     --W
     signal MemToRegW, RegWriteW        : std_logic;
     signal WriteRegW                   : std_logic_vector(4 downto 0);
-    signal AluoutW, ReaddataW, ResultW : std_logic_vector(31 downto 0);
+    signal AluoutW, ReadDataW, ResultW : std_logic_vector(31 downto 0);
     begin
     --instr zerstueckeln
     OpD <= instrD(31 downto 26);
@@ -301,7 +301,7 @@ architecture structure of datapath is
     wrmux : mux2 generic map(5) port map(d0 => RtE, d1 => RdE, s => RegDstE, y => WriteRegE);
 
     -- chose to store value from alu or memory to register
-    resmux : mux2 generic map(32) port map(AluoutW, ReaddataW, MemToRegW, ResultW);
+    resmux : mux2 generic map(32) port map(AluoutW, ReadDataW, MemToRegW, ResultW);
 
     -- sign extender
     se : signext port map(instrD(15 downto 0), SignImmD);
@@ -322,7 +322,14 @@ architecture structure of datapath is
     --Decode
     not_StallD <= not StallD;
     clearD <= PCSrcD or jump;
-    decode : pipeline_register_D port map(clk => clk, StallD => not_StallD, PCSrcD => clearD, instr => instrF, PCPlus4 => PCPlus4F, instrD => instrD, PCPlus4D => PCPlus4D);
+    decode : pipeline_register_D port map(
+		clk      => clk,
+		StallD   => not_StallD,
+		Clear    => clearD,
+		instr    => instrF,
+		PCPlus4  => PCPlus4F,
+		instrD   => instrD,
+		PCPlus4D => PCPlus4D);
 
     --Execute
     execute : pipeline_register_E port map(
@@ -332,7 +339,7 @@ architecture structure of datapath is
         RsD         => RsD,
         RtD         => RtD,
         RdD         => RdD,
-        SignImmD => SignImmD,
+        SignImmD    => SignImmD,
         PCPlus4D    => PCPlus4D,
         RegWriteD   => RegWriteD,
         MemToRegD   => MemToRegD,
@@ -380,11 +387,15 @@ architecture structure of datapath is
         MemToRegM => MemToRegM,
         WriteRegM => WriteRegM,
         AluoutW   => AluoutW,
-        ReaddataW => ReaddataW,
+        ReadDataW => ReadDataW,
         RegWriteW => RegWriteW,
         MemToRegW => MemToRegW,
         WriteRegW => WriteRegW);
 		
+	
+	--Regarding Hazard-Unit
+	
+	-- Outputs for hazard unit
 	RegWriteE_out <= RegWriteE;
 	RegWriteM_out <= RegWriteM;
 	RegWriteW_out <= RegWriteW;
@@ -398,11 +409,11 @@ architecture structure of datapath is
 	RtD_out       <= RtD;
 	RsD_out       <= RsD;
 
-    --Regarding Hazard-Unit
+    
     muxAE : mux4 generic map(w => 32) port map(d0 => RD1E, d1 => ResultW, d2 => ALUOutM, d3 => x"00000000", s => ForwardAE, y => SrcAE);
 
     muxBE : mux4 generic map(w => 32) port map(d0 => RD2E, d1 => ResultW, d2 => ALUOutM, d3 => x"00000000", s => ForwardBE, y => WriteDataE);
-
-    --for finding the end of a program
+	
+	--for finding the end of a program
     instrD_out <= instrD;
 end;
