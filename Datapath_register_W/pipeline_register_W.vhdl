@@ -14,7 +14,7 @@ entity pipeline_register_W is
         MemToRegM : in std_logic;
         WriteRegM : in std_logic_vector(4 downto 0);
         AluoutW   : out std_logic_vector(31 downto 0);
-        ReaddataW : out std_logic_vector(31 downto 0);
+        ReadDataW : out std_logic_vector(31 downto 0);
         RegWriteW : out std_logic;
         MemToRegW : out std_logic;
         WriteRegW : out std_logic_vector(4 downto 0)
@@ -39,7 +39,7 @@ begin
     end process;
 
     AluoutW   <= mem(0);
-    ReaddataW <= mem(1);
+    ReadDataW <= mem(1);
     RegWriteW <= regWrite;
     MemToRegW <= memToReg;
     WriteRegW <= writeReg;

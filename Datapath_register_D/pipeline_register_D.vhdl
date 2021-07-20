@@ -9,7 +9,7 @@ entity pipeline_register_D is
     port (
         clk      : in std_logic;
         StallD   : in std_logic;
-        PCSrcD   : in std_logic;
+        Clear    : in std_logic;
         instr    : in std_logic_vector(31 downto 0);
         PCPlus4  : in std_logic_vector(31 downto 0);
         instrD   : out std_logic_vector(31 downto 0);
@@ -23,7 +23,7 @@ architecture behavior of pipeline_register_D is
 begin
     process (clk) begin
         if rising_edge(clk) and (StallD = '1') then
-			if(PCSrcD = '1') then
+			if(Clear = '1') then
 				mem(0) <= x"00000000";
 				mem(1) <= x"00000000";
 			else
