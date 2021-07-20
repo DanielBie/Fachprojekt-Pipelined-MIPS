@@ -23,6 +23,7 @@ void handleBeq(std::string line, int lineNum);
 void handleAddi(std::string line, int lineNum);
 void handleJ(std::string line, int lineNum);
 void handleIdle(std::string line, int lineNum);
+void handleExit(std::string line, int lineNum);
 std::string rtypeInstr(int r1, int r2, int r3, RType type);
 std::string lwInstr(int r1, int offset, int r2);
 std::string swInstr(int r1, int offset, int r2);
@@ -61,6 +62,9 @@ void assembleFile(std::string input, std::string output){
     if(in1.is_open()){
         while (std::getline(in1, line)){
             if(line[0] == '.'){
+                if(line[line.size()-1] == 13){
+                    line = line.substr(0, line.size()-1);
+                }
                 labels[line] = lineNum;
             } else {
                 ++lineNum;
@@ -96,6 +100,11 @@ void assembleFile(std::string input, std::string output){
 
             bool comment = false;
 
+            if(line[line.size()-1] == 13){
+                line = line.substr(0, line.size()-1);
+            }
+
+
             if(std::regex_match(line, std::regex("(\\s)*#.*"))){
                 out << "--";
                 int j=0;
@@ -104,13 +113,19 @@ void assembleFile(std::string input, std::string output){
                 }
                 
                 line = line.substr(j+1, line.size());
-                std::cout << line << std::endl;
 
                 comment = true;
             } else if(line[0] == '.'){
                 out << "--\t" << line << std::endl;
             }
             if(line[0] != '.' && std::regex_match(line, std::regex("(\\s)*.+"))){
+                int k = 0;
+                std::string s;
+                while(k < line.size() && line[k]!='#'){
+                    s+=line[k];
+                    ++k;
+                }
+                line = s;
                 ++lineNum;
                 int i=0;
                 while (line[i] == ' '){
@@ -129,6 +144,8 @@ void assembleFile(std::string input, std::string output){
                     handleJ(line, lineNum);
                 } else if(line.rfind("idle", 0) == 0){
                     handleIdle(line, lineNum);
+                } else if(line.rfind("exit", 0) == 0){
+                    handleExit(line, lineNum);
                 } else {
                     handleRtype(line, lineNum);
                 }
@@ -157,7 +174,9 @@ void assembleFile(std::string input, std::string output){
 
 void handleRtype(std::string line, int lineNum){
     RType r;
-    int r1, r2, r3;
+    int r1 = 0;
+    int r2 = 0;
+    int r3 = 0;
     std::stringstream ss(line);
     std::string entry;
     for(int i=0; i<4; ++i){
@@ -221,7 +240,7 @@ void handleRtype(std::string line, int lineNum){
 void handleLw(std::string line, int lineNum){
     int r1, r2, offset;
     std::string off, reg;
-    int j;
+    int j = 0;
     std::stringstream ss(line);
     std::string entry;
     if(!std::getline(ss, entry, ' ') || !entry.compare("lw") == 0){
@@ -280,7 +299,7 @@ void handleLw(std::string line, int lineNum){
 void handleSw(std::string line, int lineNum){
     int r1, r2, offset;
     std::string off, reg;
-    int j;
+    int j = 0;
     std::stringstream ss(line);
     std::string entry;
     if(!std::getline(ss, entry, ' ') || !entry.compare("sw") == 0){
@@ -289,7 +308,6 @@ void handleSw(std::string line, int lineNum){
     }
     for(int i=1; i<3; ++i){
         if(std::getline(ss, entry, ' ')){
-
             switch (i){
             case 1:
                 if(entry[0] == '$'){
@@ -308,6 +326,7 @@ void handleSw(std::string line, int lineNum){
                         ++j;
                     }
                     j+=2;
+
                     while (entry[j] != ')'){
                         reg+=entry[j];
                         ++j;
@@ -369,7 +388,7 @@ void handleBeq(std::string line, int lineNum){
             case 3:
                 if(entry[0] == '.'){
                     if(labels.find(entry) != labels.end()){
-                        offset = labels[entry] - lineNum;
+                        offset = labels[entry] - lineNum - 1;
                     } else {
                         std::cout << "Error in line " << lineNum << "! Label does not exist!" << std::endl;
                         exit(1);
@@ -447,7 +466,6 @@ void handleAddi(std::string line, int lineNum){
             exit(1);
         }
     }
-
     out << "\tmem(" << memloc << ")\t<= \"" << addiInstr(r1, r2, offset) << "\";\t--" << line << std::endl;
 }
 
@@ -497,6 +515,10 @@ void handleJ(std::string line, int lineNum){
 
 void handleIdle(std::string line, int lineNum){
     out << "\tmem(" << memloc << ")\t<= \"00000000000000000000000000100000\";\t--" << line << std::endl;
+}
+
+void handleExit(std::string line, int lineNum){
+    out << "\tmem(" << memloc << ")\t<= \"11111111111111111111111111111111\";\t--" << line << std::endl;
 }
 
 std::string rtypeInstr(int r1, int r2, int r3, RType type){
