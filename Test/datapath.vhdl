@@ -36,7 +36,8 @@ entity datapath is
 		MemtoRegM_out : buffer std_logic;
 		WriteRegE_out : buffer std_logic_vector(4 downto 0);
         WriteRegM_out : buffer std_logic_vector(4 downto 0);
-        WriteRegW_out : buffer std_logic_vector(4 downto 0)
+        WriteRegW_out : buffer std_logic_vector(4 downto 0);
+        instrD_out    : buffer std_logic_vector(31 downto 0)
     );
 end;
 
@@ -401,4 +402,7 @@ architecture structure of datapath is
     muxAE : mux4 generic map(w => 32) port map(d0 => RD1E, d1 => ResultW, d2 => ALUOutM, d3 => x"00000000", s => ForwardAE, y => SrcAE);
 
     muxBE : mux4 generic map(w => 32) port map(d0 => RD2E, d1 => ResultW, d2 => ALUOutM, d3 => x"00000000", s => ForwardBE, y => WriteDataE);
+
+    --for finding the end of a program
+    instrD_out <= instrD;
 end;

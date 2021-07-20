@@ -28,7 +28,7 @@ begin
 		wait for 10 ns;
 
 	-- do cycles
-	for i in 1 to 68 loop
+	for i in 1 to 600 loop
 		clk <= '1';
 		wait for 10 ns;
 		clk <= '0';

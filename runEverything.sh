@@ -25,7 +25,7 @@ cp -R mips-pipelined/mips_pipelined_tb.vhdl Test/
 cd Assembler
 
 num=$(wc -l "../$1" | awk '{ print $1 }')
-num="$((num*4))"
+num="$((num*60))"
 g++ tbGenerator.cpp -o tbGenerator.out
 ./tbGenerator.out ../Test/mips_pipelined_tb.vhdl $num
 

@@ -7,7 +7,8 @@ use ieee.std_logic_1164.all;
 entity mips_pipelined is
     port (
         clk   : in std_logic;
-        reset : in std_logic
+        reset : in std_logic;
+        instrD_out : out std_logic_vector(31 downto 0)
     );
 end;
 
@@ -59,7 +60,8 @@ architecture structure of mips_pipelined is
 			MemtoRegM_out : buffer std_logic;
 			WriteRegE_out : buffer std_logic_vector(4 downto 0);
 			WriteRegM_out : buffer std_logic_vector(4 downto 0);
-			WriteRegW_out : buffer std_logic_vector(4 downto 0)
+			WriteRegW_out : buffer std_logic_vector(4 downto 0);
+            instrD_out    : buffer std_logic_vector(31 downto 0)
         );
     end component;
 
@@ -93,6 +95,7 @@ architecture structure of mips_pipelined is
     signal ALUControlD                                                                                                                : std_logic_vector(2 downto 0);
     signal RsE, RtE, RsD, RtD, WriteRegM, WriteRegW, WriteRegE                                                                        : std_logic_vector(4 downto 0);
     signal OpD, FunctD                                                                                                                : std_logic_vector(5 downto 0);
+    signal instrD: std_logic_vector(31 downto 0);
 begin
     mips_control : controller port map(
         op          => OpD,
@@ -137,7 +140,8 @@ begin
 		MemtoRegM_out => MemToRegM,
 		WriteRegE_out => WriteRegE,
         WriteRegM_out => WriteRegM,
-        WriteRegW_out => WriteRegW
+        WriteRegW_out => WriteRegW,
+        instrD_out => instrD
     );
     hazard_mips : Hazard_Unit port map(
         RsE       => RsE,
@@ -161,4 +165,5 @@ begin
         StallD    => StallD,
         FlushE    => FlushE
     );
+    instrD_out <= instrD;
 end;
