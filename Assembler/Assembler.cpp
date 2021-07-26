@@ -104,53 +104,53 @@ void assembleFile(std::string input, std::string output){
                 line = line.substr(0, line.size()-1);
             }
 
+            if(line.size() > 0){
+                if(std::regex_match(line, std::regex("(\\s)*#.*"))){
+                    out << "--";
+                    int j=0;
+                    while (line[j]!='#'){
+                        ++j;
+                    }
+                    
+                    line = line.substr(j+1, line.size());
 
-            if(std::regex_match(line, std::regex("(\\s)*#.*"))){
-                out << "--";
-                int j=0;
-                while (line[j]!='#'){
-                    ++j;
+                    comment = true;
+                } else if(line[0] == '.'){
+                    out << "--\t" << line << std::endl;
                 }
-                
-                line = line.substr(j+1, line.size());
-
-                comment = true;
-            } else if(line[0] == '.'){
-                out << "--\t" << line << std::endl;
+                if(line[0] != '.' && std::regex_match(line, std::regex("(\\s)*.+"))){
+                    int k = 0;
+                    std::string s;
+                    while(k < line.size() && line[k]!='#'){
+                        s+=line[k];
+                        ++k;
+                    }
+                    line = s;
+                    ++lineNum;
+                    int i=0;
+                    while (line[i] == ' '){
+                        ++i;
+                    }
+                    line = line.substr(i, line.size());
+                    if(line.rfind("lw", 0) == 0){
+                        handleLw(line, lineNum);
+                    } else if(line.rfind("sw", 0) == 0){
+                        handleSw(line, lineNum);
+                    } else if(line.rfind("beq", 0) == 0){
+                        handleBeq(line, lineNum);
+                    } else if(line.rfind("addi", 0) == 0){
+                        handleAddi(line, lineNum);
+                    } else if(line.rfind("j", 0) == 0){
+                        handleJ(line, lineNum);
+                    } else if(line.rfind("idle", 0) == 0){
+                        handleIdle(line, lineNum);
+                    } else if(line.rfind("exit", 0) == 0){
+                        handleExit(line, lineNum);
+                    } else {
+                        handleRtype(line, lineNum);
+                    }
+                }
             }
-            if(line[0] != '.' && std::regex_match(line, std::regex("(\\s)*.+"))){
-                int k = 0;
-                std::string s;
-                while(k < line.size() && line[k]!='#'){
-                    s+=line[k];
-                    ++k;
-                }
-                line = s;
-                ++lineNum;
-                int i=0;
-                while (line[i] == ' '){
-                    ++i;
-                }
-                line = line.substr(i, line.size());
-                if(line.rfind("lw", 0) == 0){
-                    handleLw(line, lineNum);
-                } else if(line.rfind("sw", 0) == 0){
-                    handleSw(line, lineNum);
-                } else if(line.rfind("beq", 0) == 0){
-                    handleBeq(line, lineNum);
-                } else if(line.rfind("addi", 0) == 0){
-                    handleAddi(line, lineNum);
-                } else if(line.rfind("j", 0) == 0){
-                    handleJ(line, lineNum);
-                } else if(line.rfind("idle", 0) == 0){
-                    handleIdle(line, lineNum);
-                } else if(line.rfind("exit", 0) == 0){
-                    handleExit(line, lineNum);
-                } else {
-                    handleRtype(line, lineNum);
-                }
-            }
-
 
             
             if(!comment && line[0]!= '.'){
