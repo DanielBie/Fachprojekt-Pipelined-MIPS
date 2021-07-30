@@ -1,0 +1,67 @@
+$date
+  Fri Jul 30 12:38:57 2021
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module hazard_unit $end
+$var reg 1 ! clk $end
+$var reg 5 " rse[4:0] $end
+$var reg 5 # rte[4:0] $end
+$var reg 5 $ rsd[4:0] $end
+$var reg 5 % rtd[4:0] $end
+$var reg 1 & regwritee $end
+$var reg 1 ' regwritem $end
+$var reg 1 ( regwritew $end
+$var reg 1 ) memtorege $end
+$var reg 1 * memtoregm $end
+$var reg 5 + writerege[4:0] $end
+$var reg 5 , writeregm[4:0] $end
+$var reg 5 - writeregw[4:0] $end
+$var reg 1 . branchd $end
+$var reg 2 / forwardae[1:0] $end
+$var reg 2 0 forwardbe[1:0] $end
+$var reg 1 1 forwardad $end
+$var reg 1 2 forwardbd $end
+$var reg 1 3 stallf $end
+$var reg 1 4 stalld $end
+$var reg 1 5 flushe $end
+$var reg 1 6 lwstall $end
+$var reg 1 7 branchstall $end
+$var reg 1 8 rawstall $end
+$var reg 1 9 stallbit $end
+$upscope $end
+$enddefinitions $end
+#0
+U!
+bUUUUU "
+bUUUUU #
+bUUUUU $
+bUUUUU %
+U&
+U'
+U(
+U)
+U*
+bUUUUU +
+bUUUUU ,
+bUUUUU -
+U.
+bUU /
+bUU 0
+01
+02
+U3
+U4
+U5
+06
+07
+U8
+U9
