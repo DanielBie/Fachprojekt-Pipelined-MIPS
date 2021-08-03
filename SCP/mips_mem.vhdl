@@ -7,7 +7,8 @@ use ieee.std_logic_1164.all;
 entity mips_mem is
   port(
     clk: in std_logic;
-    reset: in std_logic
+    reset: in std_logic;
+	instr_out: out std_logic_vector(31 downto 0)
   );
 end;
 
@@ -61,6 +62,8 @@ begin
   
   mem_data : data_memory generic map(size => 127)
 	port map(clk => clk, addr => aluout, data_in => writedata, memwrite => memwrite, data_out => readdata);
+  
+  instr_out <= instr;
   
   --data : dmem port map (clk => clk, we => memwrite, a => aluout, wd => writedata, rd => readdata);
 end;
