@@ -1,5 +1,5 @@
 $date
-  Fri Jul 30 13:53:42 2021
+  Tue Aug 03 17:22:13 2021
 $end
 $version
   GHDL v0
@@ -7,13 +7,6 @@ $end
 $timescale
   1 fs
 $end
-$scope module standard $end
-$upscope $end
-$scope module std_logic_1164 $end
-$upscope $end
-$scope module numeric_std $end
-$upscope $end
-$scope module mips_pipelined $end
 $var reg 1 ! clk $end
 $var reg 1 " reset $end
 $var reg 32 # instrd_out[31:0] $end
@@ -393,8 +386,9 @@ $var reg 1 @$ branchstall $end
 $var reg 1 A$ rawstall $end
 $var reg 1 B$ stallbita $end
 $var reg 1 C$ stallbitb $end
-$var reg 1 D$ stallbit $end
-$upscope $end
+$var reg 1 D$ branchstalla $end
+$var reg 1 E$ branchstallb $end
+$var reg 1 F$ branchstallc $end
 $upscope $end
 $enddefinitions $end
 #0
@@ -713,3 +707,5 @@ b00 9$
 0B$
 0C$
 UD$
+UE$
+UF$

@@ -28,65 +28,50 @@ entity Hazard_Unit is
 end;
 
 architecture behavior of Hazard_Unit is
-    signal lwstall, branchstall, rawstall, stallbita, stallbitb, stallbit : std_logic;
+    signal lwstall, branchstall, rawstall, stallbita, stallbitb, branchstallA, branchstallB, branchstallC : std_logic;
 begin
 	
 	--Forwarding D
 	process (RsD, RtD, WriteRegM, RegWriteM, BranchD, RegWriteE, WriteRegE, MemtoRegM)begin
-		if ( (RsD /= "00000") AND (RsD = WriteRegM) AND (RegWriteM = '1') ) then
-			ForwardAD <= '1';
-		else
-			ForwardAD <= '0';
-		end if;
+		-- if ( (RsD /= "00000") AND (RsD = WriteRegM) AND (RegWriteM = '1') ) then
+			-- branchstallA <= '1';
+		-- else
+			-- branchstallA <= '0';
+		-- end if;
 		
-		if ( (RtD /= "00000") AND (RtD = WriteRegM) AND (RegWriteM = '1') ) then
-			ForwardBD <= '1';
-		else
-			ForwardBD <= '0';
-		end if;
+		-- if ( (RtD /= "00000") AND (RtD = WriteRegM) AND (RegWriteM = '1') ) then
+			-- branchstallB <= '1';
+		-- else
+			-- branchstallB <= '0';
+		-- end if;
 		
 		if ( (BranchD = '1' AND RegWriteE = '1' AND (WriteRegE = RsD OR WriteRegE = RtD) ) OR ( BranchD = '1' AND MemtoRegM = '1' AND (WriteRegM = RsD OR WriteRegM = RtD) ) ) then
 			branchstall <= '1';
 		else
 			branchstall <= '0';
 		end if;
+		-- branchstall <= branchstallA OR branchstallB OR branchstallC;
 		
 	end process;
 
     --Forwarding E
     process (clk, RsD, RtD, RegWriteE, RegWriteM, WriteRegE, WriteRegM) begin
-        if(stallbit = '1') then
-            if (rising_edge(clk)) then
-                stallbit <= '0';
-                rawstall <= '1';
-                stallbita <= '0';
-                stallbitb <= '0';
-            end if;
-        else
-            rawstall <= '0';
-            if ((RsD /= "00000") and (RsD = WriteRegE) and (RegWriteE = '1')) then
-                rawstall <= '1';
-                stallbita <= '1';
-            elsif ((RsD /= "00000") and (RsD = WriteRegM) and (RegWriteM = '1')) then
-                rawstall <= '1';
-                stallbita <= '0';
-            else 
-                rawstall <= '0';
-                stallbita <= '0';
-            end if;
-            
-            if ((RtD /= "00000") and (RtD = WriteRegE) and (RegWriteE = '1')) then
-                rawstall <= '1';
-                stallbitb <= '1';
-            elsif ((RtD /= "00000") and (RtD = WriteRegM) and (RegWriteM = '1')) then
-                rawstall <= '1';
-                stallbitb <= '0';
-            else 
-                rawstall <= '0';
-                stallbitb <= '0';
-            end if;
-        end if;
-        stallbit <= stallbita OR stallbitb;
+		if ((RsD /= "00000") and (RsD = WriteRegE) and (RegWriteE = '1')) then
+			stallbita <= '1';
+		elsif ((RsD /= "00000") and (RsD = WriteRegM) and (RegWriteM = '1')) then
+			stallbita <= '1';
+		else 
+			stallbita <= '0';
+		end if;
+		
+		if ((RtD /= "00000") and (RtD = WriteRegE) and (RegWriteE = '1')) then
+			stallbitb <= '1';
+		elsif ((RtD /= "00000") and (RtD = WriteRegM) and (RegWriteM = '1')) then
+			stallbitb <= '1';
+		else 
+			stallbitb <= '0';
+		end if;
+			
     end process;
 
 	--Stalling
@@ -99,19 +84,12 @@ begin
 		-- lwstall <= (((RsD = RtE) or (RtD = RtE)) and (MemToRegE = '1'));
 	end process;
 
-    -- process (clk) begin
-    --     if (rising_edge(clk)) then
-    --         if(stallbit = '1') then
-	--             assert false report "In here Stuff";
-    --             stallbit <= '0';
-    --             -- rawstall <= '1';
-    --         end if;
-    --     end if;
-    -- end process;
-
-
     ForwardAE <= "00";
     ForwardBE <= "00";
+	ForwardAD <= '0';
+    ForwardBD <= '0';
+	
+	rawstall <= stallbita OR stallbitb;
 
     StallF <= lwstall OR branchstall OR rawstall;
     StallD <= lwstall OR branchstall OR rawstall;
