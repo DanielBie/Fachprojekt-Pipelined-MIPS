@@ -128,7 +128,7 @@ void assembleFile(std::string input, std::string output){
                     line = s;
                     ++lineNum;
                     int i=0;
-                    while (line[i] == ' '){
+                    while (line[i] == ' ' || line[i] == '\t'){
                         ++i;
                     }
                     line = line.substr(i, line.size());

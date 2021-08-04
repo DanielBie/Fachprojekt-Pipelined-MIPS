@@ -29,7 +29,7 @@ begin
     end if;
   end process;
 
-  process(a1, a2) begin
+  process(clk, a1, a2) begin
     if (to_integer(unsigned(a1)) = 0) then rd1 <= x"00000000";
     else rd1 <= mem(to_integer(unsigned(a1)));
     end if;

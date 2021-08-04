@@ -316,7 +316,7 @@ architecture structure of datapath is
     instMem : instr_mem port map(pcf, instrF);
 
     --data memory
-    dataMem : data_memory port map(clk, ALUOutM, WriteDataM, MemWriteM, ReadDataM);
+    dataMem : data_memory generic map(8192) port map(clk, ALUOutM, WriteDataM, MemWriteM, ReadDataM);
 
     --Register:
     --Decode

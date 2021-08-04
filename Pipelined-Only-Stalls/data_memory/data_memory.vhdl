@@ -52,7 +52,7 @@ begin
       end if;
     end process;
 
-    process(addr) begin
+    process(clk,addr) begin
 	  if to_integer(unsigned(addr(31 downto 2))) < size then
 	  data_out <= mem(to_integer(unsigned(addr(31 downto 2))));
 	  else

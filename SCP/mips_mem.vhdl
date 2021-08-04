@@ -60,7 +60,7 @@ begin
   
   mem_instr : instr_mem port map(pc => pc, instr => instr);
   
-  mem_data : data_memory generic map(size => 127)
+  mem_data : data_memory generic map(size => 8192)
 	port map(clk => clk, addr => aluout, data_in => writedata, memwrite => memwrite, data_out => readdata);
   
   instr_out <= instr;
