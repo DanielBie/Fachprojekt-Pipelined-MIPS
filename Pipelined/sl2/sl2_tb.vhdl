@@ -21,7 +21,7 @@ begin
     process begin
         a <= x"00000001";
         wait for 10 ns;
-        assert y /= x"00000004" report "error";
+        assert y = x"00000004" report "error";
         wait for 10 ns;
 
         wait;

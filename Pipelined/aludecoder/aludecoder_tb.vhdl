@@ -23,34 +23,34 @@ begin
     aludcdec : aludecoder port map(funct, aluop, AluControlE);
     process begin
         aluop <= "00";
-        assert AluControlE /= "010" report "Error with aluop";
         wait for 10 ns;
+        assert AluControlE = "010" report "Error with aluop";
 
         aluop <= "01";
-        assert AluControlE /= "110" report "Error with aluop";
         wait for 10 ns;
+        assert AluControlE = "110" report "Error with aluop";
 
         aluop <= "11";
         
         funct <= "100000";
-        assert AluControlE /= "010" report "Error with funct";
         wait for 10 ns;
+        assert AluControlE = "010" report "Error with funct";
 
         funct <= "100010";
-        assert AluControlE /= "110" report "Error with funct";
         wait for 10 ns;
+        assert AluControlE = "110" report "Error with funct";
 
         funct <= "100100";
-        assert AluControlE /= "000" report "Error with funct";
         wait for 10 ns;
+        assert AluControlE = "000" report "Error with funct";
 
         funct <= "100101";
-        assert AluControlE /= "001" report "Error with funct";
         wait for 10 ns;
+        assert AluControlE = "001" report "Error with funct";
 
         funct <= "101010";
-        assert AluControlE /= "111" report "Error with funct";
         wait for 10 ns;
+        assert AluControlE = "111" report "Error with funct";
 
         wait;
     end process;
