@@ -21,18 +21,18 @@ entity pipeline_register_M is
 end;
 
 architecture structure of pipeline_register_M is
-    type ramtype_32 is array (2 downto 0) of std_logic_vector(31 downto 0);
+    type ramtype_32 is array (1 downto 0) of std_logic_vector(31 downto 0);
     type ramtype_5 is array (0 downto 0) of std_logic_vector(4 downto 0);
-    type ramtype_1 is array (4 downto 0) of std_logic;
+    type ramtype_1 is array (2 downto 0) of std_logic;
     signal mem_32 : ramtype_32;
     signal mem_5  : ramtype_5;
     signal mem_1  : ramtype_1;
 begin
     process (clk) begin
         if rising_edge(clk) then
-            mem_1(1) <= RegWriteE;
-            mem_1(2) <= MemToRegE;
-            mem_1(3) <= MemWriteE;
+            mem_1(0) <= RegWriteE;
+            mem_1(1) <= MemToRegE;
+            mem_1(2) <= MemWriteE;
 
             mem_5(0) <= WriteRegE;
 
@@ -40,9 +40,9 @@ begin
             mem_32(1) <= WriteDataE;
         end if;
     end process;
-    RegWriteM <= mem_1(1);
-    MemToRegM <= mem_1(2);
-    MemWriteM <= mem_1(3);
+    RegWriteM <= mem_1(0);
+    MemToRegM <= mem_1(1);
+    MemWriteM <= mem_1(2);
 
     WriteRegM <= mem_5(0);
 

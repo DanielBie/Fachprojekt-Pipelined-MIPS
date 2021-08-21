@@ -97,6 +97,7 @@ architecture structure of mips_pipelined is
     signal OpD, FunctD                                                                                                                : std_logic_vector(5 downto 0);
     signal instrD: std_logic_vector(31 downto 0);
 begin
+    -- controlunit
     mips_control : controller port map(
         op          => OpD,
         funct       => FunctD,
@@ -109,6 +110,7 @@ begin
         RegdstD     => RegDstD,
         JumpD       => JumpD
     );
+    -- datapath
     mips_datapath : datapath port map(
         clk           => clk,
         reset         => reset,
@@ -143,6 +145,7 @@ begin
         WriteRegW_out => WriteRegW,
         instrD_out => instrD
     );
+    -- hazard unit
     hazard_mips : Hazard_Unit port map(
         RsE       => RsE,
         RtE       => RtE,
