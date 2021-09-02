@@ -1,0 +1,49 @@
+v 4
+file . "mips_singlecycle_tb.vhdl" "07bd5eaafe3b068715fd6462f212063902bbca8f" "20210902073727.761":
+  entity mips_singlecycle_tb at 1( 0) + 0 on 325;
+  architecture structure of mips_singlecycle_tb at 7( 80) + 0 on 326;
+file . "datapath.vhdl" "9928297141c949be49daaef4e77fd385138cfb98" "20210902073727.514":
+  entity datapath at 4( 177) + 0 on 321;
+  architecture structure of datapath at 27( 773) + 0 on 322;
+file . "instr_mem.vhdl" "9cfaa0d53953391012c9abc43691dcef603e63e6" "20210902073727.180":
+  entity instr_mem at 1( 0) + 0 on 317;
+  architecture behavior of instr_mem at 11( 190) + 0 on 318;
+file . "controller.vhdl" "cfa13488f0f2aa2939b3b93a558eae413d55f609" "20210902073727.036":
+  entity controller at 4( 177) + 0 on 313;
+  architecture structure of controller at 23( 611) + 0 on 314;
+file . "aludec.vhdl" "ec07fe26a4b4b167b1db5363b1154e7d7eae6b4a" "20210902073726.950":
+  entity aludec at 4( 177) + 0 on 309;
+  architecture behavior of aludec at 15( 394) + 0 on 310;
+file . "sl2.vhdl" "c1fdb6d3868b632cc0d97fd8354ba64103a2757f" "20210902073726.873":
+  entity sl2 at 4( 177) + 0 on 305;
+  architecture behavior of sl2 at 14( 336) + 0 on 306;
+file . "regfile.vhdl" "f6c7fe643d5a5d86bbf04591d173093664634531" "20210902073726.679":
+  entity regfile at 4( 177) + 0 on 301;
+  architecture behavior of regfile at 21( 590) + 0 on 302;
+file . "alu.vhdl" "490f5da478d23d8f1ad974c95acb84e18c806c4d" "20210902073726.551":
+  entity alu at 4( 177) + 0 on 297;
+  architecture behavior of alu at 18( 485) + 0 on 298;
+file . "adder.vhdl" "abdcd03d71c07a454337aa36a18950b56eb30d76" "20210902073726.468":
+  entity adder at 4( 177) + 0 on 295;
+  architecture behavior of adder at 16( 405) + 0 on 296;
+file . "mux2.vhdl" "6b798c0ae705e5b43f868dbde871472ef843680d" "20210902073726.634":
+  entity mux2 at 4( 177) + 0 on 299;
+  architecture behavior of mux2 at 17( 432) + 0 on 300;
+file . "signext.vhdl" "e259b817ff258e3e0ce3cd577d675736f9ef04d9" "20210902073726.772":
+  entity signext at 4( 177) + 0 on 303;
+  architecture behavior of signext at 14( 369) + 0 on 304;
+file . "syncresff.vhdl" "d87b948edc633a3271e0b599131d8419f8212dfe" "20210902073726.917":
+  entity syncresff at 4( 177) + 0 on 307;
+  architecture behavior of syncresff at 17( 427) + 0 on 308;
+file . "maindec.vhdl" "a682f7a7c8ad949f697eaa9f0f78422fc2048f47" "20210902073726.993":
+  entity maindec at 4( 177) + 0 on 311;
+  architecture behavior of maindec at 21( 536) + 0 on 312;
+file . "data_memory.vhdl" "f717415b8d7f02c07636fba0908b0865d686ebb8" "20210902073727.083":
+  entity data_memory at 4( 180) + 0 on 315;
+  architecture behavior of data_memory at 19( 524) + 0 on 316;
+file . "mips_mem.vhdl" "5deab069a90a8cdfc02e083ba5e718a621832b2d" "20210902073727.272":
+  entity mips_mem at 4( 180) + 0 on 319;
+  architecture structure of mips_mem at 15( 367) + 0 on 320;
+file . "mips.vhdl" "22e5221c6e36ff4ed5b031b136a80614dbd1c345" "20210902073727.631":
+  entity mips at 4( 177) + 0 on 323;
+  architecture structure of mips at 20( 573) + 0 on 324;

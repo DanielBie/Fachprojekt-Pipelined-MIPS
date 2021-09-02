@@ -1,4 +1,0 @@
-    addi $1 $0 5
-    addi $2 $0 2
-    add $1 $2 $1
-    exit

@@ -10,9 +10,9 @@ entity pipeline_register_D is
         clk      : in std_logic;
         StallD   : in std_logic;
         Clear    : in std_logic;
-        instr    : in std_logic_vector(31 downto 0);
+        InstrF    : in std_logic_vector(31 downto 0);
         PCPlus4  : in std_logic_vector(31 downto 0);
-        instrD   : out std_logic_vector(31 downto 0);
+        InstrD   : out std_logic_vector(31 downto 0);
         PCPlus4D : out std_logic_vector(31 downto 0)
     );
 end;
@@ -27,13 +27,13 @@ begin
 				mem(0) <= x"00000000";
 				mem(1) <= x"00000000";
 			else
-				mem(0) <= instr; --speichere instr an index 0
+				mem(0) <= InstrF; --speichere InstrF an index 0
 				mem(1) <= PCPlus4; --speichere PCPlus4 an index 0
 			end if;
         end if;
     end process;
 
-    instrD   <= mem(0);
+    InstrD   <= mem(0);
     PCPlus4D <= mem(1);
 
 end;

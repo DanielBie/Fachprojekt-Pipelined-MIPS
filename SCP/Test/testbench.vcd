@@ -1,0 +1,282 @@
+$date
+  Thu Sep  2 09:37:27 2021
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module numeric_std $end
+$upscope $end
+$scope module mips $end
+$var reg 1 ! clk $end
+$var reg 1 " reset $end
+$var reg 32 # pc[31:0] $end
+$var reg 32 $ instr[31:0] $end
+$var reg 32 % readdata[31:0] $end
+$var reg 32 & aluout[31:0] $end
+$var reg 32 ' writedata[31:0] $end
+$var reg 1 ( memwrite $end
+$var reg 1 ) memtoreg $end
+$var reg 1 * alusrc $end
+$var reg 1 + regdst $end
+$var reg 1 , regwrite $end
+$var reg 1 - jump $end
+$var reg 1 . pcsrc $end
+$var reg 1 / zero $end
+$var reg 3 0 alucontrol[2:0] $end
+$scope module mips_control $end
+$var reg 6 1 op[5:0] $end
+$var reg 6 2 funct[5:0] $end
+$var reg 1 3 zero $end
+$var reg 1 4 memtoreg $end
+$var reg 1 5 memwrite $end
+$var reg 1 6 pcsrc $end
+$var reg 1 7 alusrc $end
+$var reg 1 8 regdst $end
+$var reg 1 9 regwrite $end
+$var reg 1 : jump $end
+$var reg 3 ; alucontrol[2:0] $end
+$var reg 2 < aluop[1:0] $end
+$var reg 1 = branch $end
+$scope module md $end
+$var reg 6 > op[5:0] $end
+$var reg 1 ? memtoreg $end
+$var reg 1 @ memwrite $end
+$var reg 1 A branch $end
+$var reg 1 B alusrc $end
+$var reg 1 C regdst $end
+$var reg 1 D regwrite $end
+$var reg 1 E jump $end
+$var reg 2 F aluop[1:0] $end
+$var reg 9 G controls[8:0] $end
+$upscope $end
+$scope module ad $end
+$var reg 6 H funct[5:0] $end
+$var reg 2 I aluop[1:0] $end
+$var reg 3 J alucontrol[2:0] $end
+$upscope $end
+$upscope $end
+$scope module mips_datapath $end
+$var reg 1 K clk $end
+$var reg 1 L reset $end
+$var reg 1 M memtoreg $end
+$var reg 1 N pcsrc $end
+$var reg 1 O alusrc $end
+$var reg 1 P regdst $end
+$var reg 1 Q regwrite $end
+$var reg 1 R jump $end
+$var reg 3 S alucontrol[2:0] $end
+$var reg 32 T readdata[31:0] $end
+$var reg 32 U instr[31:0] $end
+$var reg 1 V zero $end
+$var reg 32 W pc[31:0] $end
+$var reg 32 X aluout[31:0] $end
+$var reg 32 Y writedata[31:0] $end
+$var reg 5 Z writereg[4:0] $end
+$var reg 32 [ pcjump[31:0] $end
+$var reg 32 \ pcnext[31:0] $end
+$var reg 32 ] pcnextbr[31:0] $end
+$var reg 32 ^ pcplus4[31:0] $end
+$var reg 32 _ pcbranch[31:0] $end
+$var reg 32 ` signimm[31:0] $end
+$var reg 32 a signimmsh[31:0] $end
+$var reg 32 b srca[31:0] $end
+$var reg 32 c srcb[31:0] $end
+$var reg 32 d result[31:0] $end
+$scope module pcreg $end
+$var reg 1 e clk $end
+$var reg 1 f reset $end
+$var reg 32 g d[31:0] $end
+$var reg 32 h q[31:0] $end
+$upscope $end
+$scope module pcadd1 $end
+$var reg 32 i a[31:0] $end
+$var reg 32 j b[31:0] $end
+$var reg 32 k y[31:0] $end
+$upscope $end
+$scope module immsh $end
+$var reg 32 l a[31:0] $end
+$var reg 32 m y[31:0] $end
+$upscope $end
+$scope module pcadd2 $end
+$var reg 32 n a[31:0] $end
+$var reg 32 o b[31:0] $end
+$var reg 32 p y[31:0] $end
+$upscope $end
+$scope module pcbrmux $end
+$var reg 32 q d0[31:0] $end
+$var reg 32 r d1[31:0] $end
+$var reg 1 s s $end
+$var reg 32 t y[31:0] $end
+$upscope $end
+$scope module pcmux $end
+$var reg 32 u d0[31:0] $end
+$var reg 32 v d1[31:0] $end
+$var reg 1 w s $end
+$var reg 32 x y[31:0] $end
+$upscope $end
+$scope module rf $end
+$var reg 1 y clk $end
+$var reg 1 z we3 $end
+$var reg 5 { a1[4:0] $end
+$var reg 5 | a2[4:0] $end
+$var reg 5 } a3[4:0] $end
+$var reg 32 !" wd3[31:0] $end
+$var reg 32 "" rd1[31:0] $end
+$var reg 32 #" rd2[31:0] $end
+$comment mem is not handled $end
+$upscope $end
+$scope module wrmux $end
+$var reg 5 $" d0[4:0] $end
+$var reg 5 %" d1[4:0] $end
+$var reg 1 &" s $end
+$var reg 5 '" y[4:0] $end
+$upscope $end
+$scope module resmux $end
+$var reg 32 (" d0[31:0] $end
+$var reg 32 )" d1[31:0] $end
+$var reg 1 *" s $end
+$var reg 32 +" y[31:0] $end
+$upscope $end
+$scope module se $end
+$var reg 16 ," a[15:0] $end
+$var reg 32 -" aext[31:0] $end
+$upscope $end
+$scope module srcbmux $end
+$var reg 32 ." d0[31:0] $end
+$var reg 32 /" d1[31:0] $end
+$var reg 1 0" s $end
+$var reg 32 1" y[31:0] $end
+$upscope $end
+$scope module mainalu $end
+$var reg 32 2" a[31:0] $end
+$var reg 32 3" b[31:0] $end
+$var reg 3 4" alucontrol[2:0] $end
+$var reg 32 5" result[31:0] $end
+$var reg 1 6" zero $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+U!
+U"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU #
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU $
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU %
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU &
+b00000000000000000000000000000000 '
+-(
+-)
+-*
+-+
+-,
+--
+0.
+0/
+b--- 0
+bUUUUUU 1
+bUUUUUU 2
+03
+-4
+-5
+06
+-7
+-8
+-9
+-:
+b--- ;
+b-- <
+-=
+bUUUUUU >
+-?
+-@
+-A
+-B
+-C
+-D
+-E
+b-- F
+b--------- G
+bUUUUUU H
+b-- I
+b--- J
+UK
+UL
+-M
+0N
+-O
+-P
+-Q
+-R
+b--- S
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU T
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU U
+0V
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU W
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU X
+b00000000000000000000000000000000 Y
+bUUUUU Z
+bXXXXUUUUUUUUUUUUUUUUUUUUUUUUUU00 [
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ]
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ^
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX _
+b0000000000000000UUUUUUUUUUUUUUUU `
+b00000000000000UUUUUUUUUUUUUUUU00 a
+b00000000000000000000000000000000 b
+b00000000000000000000000000000000 c
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU d
+Ue
+Uf
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX g
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU h
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU i
+b00000000000000000000000000000100 j
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX k
+b0000000000000000UUUUUUUUUUUUUUUU l
+b00000000000000UUUUUUUUUUUUUUUU00 m
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX n
+b00000000000000UUUUUUUUUUUUUUUU00 o
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX p
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX q
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX r
+0s
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX t
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX u
+bXXXXUUUUUUUUUUUUUUUUUUUUUUUUUU00 v
+-w
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX x
+Uy
+-z
+bUUUUU {
+bUUUUU |
+bUUUUU }
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU !"
+b00000000000000000000000000000000 ""
+b00000000000000000000000000000000 #"
+bUUUUU $"
+bUUUUU %"
+-&"
+bUUUUU '"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ("
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU )"
+-*"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU +"
+bUUUUUUUUUUUUUUUU ,"
+b0000000000000000UUUUUUUUUUUUUUUU -"
+b00000000000000000000000000000000 ."
+b0000000000000000UUUUUUUUUUUUUUUU /"
+-0"
+b00000000000000000000000000000000 1"
+b00000000000000000000000000000000 2"
+b00000000000000000000000000000000 3"
+b--- 4"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 5"
+06"

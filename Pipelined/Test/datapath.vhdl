@@ -37,7 +37,7 @@ entity datapath is
 		WriteRegE_out : buffer std_logic_vector(4 downto 0);
         WriteRegM_out : buffer std_logic_vector(4 downto 0);
         WriteRegW_out : buffer std_logic_vector(4 downto 0);
-		instrD_out    : buffer std_logic_vector(31 downto 0)
+		InstrD_out    : buffer std_logic_vector(31 downto 0)
     );
 end;
 
@@ -139,9 +139,9 @@ architecture structure of datapath is
             clk      : in std_logic;
 			StallD   : in std_logic;
 			Clear    : in std_logic;
-			instr    : in std_logic_vector(31 downto 0);
+			InstrF    : in std_logic_vector(31 downto 0);
 			PCPlus4  : in std_logic_vector(31 downto 0);
-			instrD   : out std_logic_vector(31 downto 0);
+			InstrD   : out std_logic_vector(31 downto 0);
 			PCPlus4D : out std_logic_vector(31 downto 0)
         );
     end component;
@@ -226,45 +226,44 @@ architecture structure of datapath is
         );
     end component;
 
-    --F
-    signal not_StallF, clearD                           : std_logic;
-    signal pc, pcf, PCPlus4F, instrF, PCBranchF 		: std_logic_vector(31 downto 0);
-    --D
-    -- signal RegWriteD, MemToRegD, MemWriteD, BranchD, ALUControlD, ALUSrcD, RegDstD: std_logic;
-    signal not_clk, not_StallD, PcSrcD, EqualD                             						  : std_logic;
+    --Fetch
+    signal not_StallF, ClearD                           : std_logic;
+    signal PC, PCF, PCPlus4F, InstrF, PCBranchF 		: std_logic_vector(31 downto 0);
+    --Decode
+    signal not_clk, not_StallD, EqualD, PCSrcD                             						  : std_logic;
     signal RtD, RdD, RsD                                    									  : std_logic_vector(4 downto 0);
-    signal RD1, RD2, SignImmD, SignImmDsh, PCBranchD, PCPlus4D, instrD, PCJumpD, EqualAD, EqualBD : std_logic_vector(31 downto 0);
-    --E
+    signal RD1, RD2, SignImmD, SignImmDsh, PCBranchD, PCPlus4D, InstrD, PCJumpD, EqualAD, EqualBD : std_logic_vector(31 downto 0);
+    --Execute
     signal ZeroE, RegWriteE, MemWriteE, MemToRegE, ALUSrcE, RegDstE                                      		  : std_logic;
     signal ALUControlE                                                                                            : std_logic_vector(2 downto 0);
     signal WriteRegE, RdE, RtE, RsE                                                                               : std_logic_vector(4 downto 0);
     signal RD1E, RD2E, SrcAE, SrcBE, WriteDataE, SignImmE, PCPlus4E, ALUOutE									  : std_logic_vector(31 downto 0);
-    --M
-    signal ZeroM, MemToRegM, MemWriteM, RegWriteM 		: std_logic;
+    --Memory
+    signal MemToRegM, MemWriteM, RegWriteM 		: std_logic;
     signal WriteRegM                                    : std_logic_vector(4 downto 0);
     signal ALUOutM, WriteDataM, ReadDataM 				: std_logic_vector(31 downto 0);
-    --W
+    --Writeback
     signal MemToRegW, RegWriteW        : std_logic;
     signal WriteRegW                   : std_logic_vector(4 downto 0);
     signal AluoutW, ReadDataW, ResultW : std_logic_vector(31 downto 0);
     begin
-    --instr zerstueckeln
-    OpD <= instrD(31 downto 26);
+    -- assigning the different parts of the instruction
+    OpD <= InstrD(31 downto 26);
 
-    FunctD <= instrD(5 downto 0);
+    FunctD <= InstrD(5 downto 0);
 
-    RsD <= instrD(25 downto 21);
+    RsD <= InstrD(25 downto 21);
 
-    RtD <= instrD(20 downto 16);
+    RtD <= InstrD(20 downto 16);
 
-    RdD <= instrD(15 downto 11);
+    RdD <= InstrD(15 downto 11);
 
     -- next pc logic
     PCJumpD <= PCPlus4D(31 downto 28) & InstrD(25 downto 0) & "00";
 
     -- pc register
     not_StallF <= not StallF;
-    pcreg : syncresff port map(clk => clk, reset => reset, StallF => not_StallF, d => pc, q => pcf);
+    pcreg : syncresff port map(clk => clk, reset => reset, StallF => not_StallF, d => pc, q => PCF);
 
 	--Equal
 	equalt : equal generic map(32) port map(RD1D => EqualAD, RD2D => EqualBD, EqualD => EqualD);
@@ -276,7 +275,7 @@ architecture structure of datapath is
 	branchMuxB : mux2 generic map(32) port map(RD2, ALUOutM, ForwardBD, EqualBD);
 
     -- adder for pc+4
-    pcadd1 : adder port map(pcf, x"00000004", PCPlus4F);
+    pcadd1 : adder port map(PCF, x"00000004", PCPlus4F);
 
     -- shift left2
     immsh : sl2 port map(SignImmD, SignImmDsh);
@@ -289,13 +288,13 @@ architecture structure of datapath is
     pcbrmux : mux2 generic map(32) port map(PCPlus4F, PCBranchD, PCSrcD, PCBranchF);
 
     -- chose signimmsh+pc+4 or jump address as next pc value
-    pcmux : mux2 generic map(32) port map(PCBranchF, PCJumpD, jump, pc);
+    pcmux : mux2 generic map(32) port map(PCBranchF, PCJumpD, jump, PC);
 
     -- invert clk
     not_clk <= not clk;
 
     -- register file logic
-    rf : regfile port map(clk => not_clk, we3 => RegWriteW, a1 => instrD(25 downto 21), a2 => instrD(20 downto 16), a3 => WriteRegW, wd3 => ResultW, rd1 => RD1, rd2 => RD2);
+    rf : regfile port map(clk => not_clk, we3 => RegWriteW, a1 => InstrD(25 downto 21), a2 => InstrD(20 downto 16), a3 => WriteRegW, wd3 => ResultW, rd1 => RD1, rd2 => RD2);
 
     -- mux for deciding into which register (out of the two specified in the instruction) to write
     wrmux : mux2 generic map(5) port map(d0 => RtE, d1 => RdE, s => RegDstE, y => WriteRegE);
@@ -304,7 +303,7 @@ architecture structure of datapath is
     resmux : mux2 generic map(32) port map(AluoutW, ReadDataW, MemToRegW, ResultW);
 
     -- sign extender
-    se : signext port map(instrD(15 downto 0), SignImmD);
+    se : signext port map(InstrD(15 downto 0), SignImmD);
 
     -- chose rd2 or sign extended value (add immediate to a register or add two values in registers)
     srcbmux : mux2 generic map(32) port map(WriteDataE, SignImmE, ALUSrcE, SrcBE);
@@ -313,7 +312,7 @@ architecture structure of datapath is
     mainalu : alu port map(SrcAE, SrcBE, ALUControlE, ALUOutE, ZeroE);
 
     --instruction memory
-    instMem : instr_mem port map(pcf, instrF);
+    instMem : instr_mem port map(PCF, InstrF);
 
     --data memory
     dataMem : data_memory generic map(8192) port map(clk, ALUOutM, WriteDataM, MemWriteM, ReadDataM);
@@ -321,14 +320,14 @@ architecture structure of datapath is
     --Register:
     --Decode
     not_StallD <= not StallD;
-    clearD <= PCSrcD or jump;
+    ClearD <= PCSrcD or jump;
     decode : pipeline_register_D port map(
 		clk      => clk,
 		StallD   => not_StallD,
-		Clear    => clearD,
-		instr    => instrF,
+		Clear    => ClearD,
+		InstrF   => InstrF,
 		PCPlus4  => PCPlus4F,
-		instrD   => instrD,
+		InstrD   => InstrD,
 		PCPlus4D => PCPlus4D);
 
     --Execute
@@ -415,5 +414,5 @@ architecture structure of datapath is
     muxBE : mux4 generic map(w => 32) port map(d0 => RD2E, d1 => ResultW, d2 => ALUOutM, d3 => x"00000000", s => ForwardBE, y => WriteDataE);
 	
 	--for finding the end of a program
-    instrD_out <= instrD;
+    InstrD_out <= InstrD;
 end;

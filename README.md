@@ -16,7 +16,13 @@ The script `runEverything.sh` can be run on Windows using the GitBash.
 
 ## Usage
 
-The script `runEverything.sh` can be used for testing and receives one parameter. The parameter defines the path to a test program. The test program will be simulated and the signals will be visualized in GTKWave. The number of cycles needed for completion of the program are displayed in the console.
+In each processor subfolder (`\Pipelined`, `/Pipelined-Only-Stalls`, `/SCP`) a script can be used to execute the processor with one program. These scripts are `runPipelined.sh`, `runOnlyStalls.sh` and `runSingleCycle.sh` and they each receive one parameter, the name of the file inside `/Programs` containing the program.
+
+Additionally, the script `runAll.sh` can be used to run all processors with the same program. It also receives the name of the program as a parameter.
+
+The scripts all open the GTKWave of the processor and the program. The number of cycles it took the processor to run the program can be read from the console.
+
+Example: `./runAll.sh Fibonacci.mips` runs the Program `Fibonacci.mips` on all three processors.
 
 ## Supported Instructions
 

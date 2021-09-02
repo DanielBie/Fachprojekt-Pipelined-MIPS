@@ -21,13 +21,13 @@ done
 
 cp -R Execution_Time_Test/mips_pipelined_tb.vhdl Test/
 
-cd Assembler
+cd ../Assembler
 
 g++ Assembler.cpp -o Assembler.out
-./Assembler.out "../$1" ../Test/instr_mem.vhdl
+./Assembler.out "../Programs/$1" ../Pipelined/Test/instr_mem.vhdl
 cd ..
 
-cd Test
+cd Pipelined/Test
 
 ./compileAll.sh
 echo
