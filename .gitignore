@@ -1,8 +1,11 @@
-Datapath Register/compile.sh
-Test/work-obj93.cf
-Test/*.vcd
-Test/compile.sh
-Test/compileAll.sh
 .vscode/settings.json
+Pipelined/Test/*.vcd
+Pipelined/Test/*.vhdl
+Pipelined/Test/*.cf
+Pipelined-Only-Stalls/Test/*.vcd
+Pipelined-Only-Stalls/Test/*.vhdl
+Pipelined-Only-Stalls/Test/*.cf
+SCP/Test/*.vcd
+SCP/Test/*.vhdl
+SCP/Test/*.cf
 Assembler/Assembler.out
-Assembler/tbGenerator.out
