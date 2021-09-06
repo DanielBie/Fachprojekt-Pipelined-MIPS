@@ -4,7 +4,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity mips_pipelined is
+entity mips_pipelined_stalls is
     port (
         clk   : in std_logic;
         reset : in std_logic;
@@ -12,7 +12,7 @@ entity mips_pipelined is
     );
 end;
 
-architecture structure of mips_pipelined is
+architecture structure of mips_pipelined_stalls is
     component controller is
         port (
             op          : in std_logic_vector(5 downto 0);

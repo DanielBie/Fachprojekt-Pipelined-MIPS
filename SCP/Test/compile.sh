@@ -35,7 +35,7 @@ do
     fi
     echo "Build OK"
 
-    if !(ghdl -r $val --vcd=$val".vcd") #VCD-Dump-Checking
+    if !(ghdl -r $val --ieee-asserts=disable --vcd=$val".vcd") #VCD-Dump-Checking
       then
         exit 1;
     fi

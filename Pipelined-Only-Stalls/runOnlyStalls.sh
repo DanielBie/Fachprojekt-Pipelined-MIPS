@@ -19,7 +19,7 @@ do
 done
 
 
-cp -R Execution_Time_Test/mips_pipelined_tb.vhdl Test/
+cp -R Execution_Time_Test/mips_pipelined_stalls_tb.vhdl Test/
 
 cd ../Assembler
 
@@ -31,4 +31,4 @@ cd Pipelined-Only-Stalls/Test
 
 ./compileAll.sh
 echo
-./compile.sh mips_pipelined_tb.vhdl
+./compile.sh mips_pipelined_stalls_tb.vhdl

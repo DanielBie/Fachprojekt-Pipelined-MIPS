@@ -1,10 +1,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity mips_pipelined_tb is
+entity mips_pipelined_stalls_tb is
 end;
 
-architecture structure of mips_pipelined_tb is
+architecture structure of mips_pipelined_stalls_tb is
 
 	component mips_pipelined is
 		port (
